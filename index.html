@@ -30,55 +30,6 @@
     .summary{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;margin-top:18px}.terms{border:1px solid var(--border);border-radius:12px;overflow:hidden}.terms h3{margin:0;background:var(--light);padding:10px 12px;font-size:15px}.terms ul{margin:0;padding:14px 28px 14px 14px;font-size:12px;line-height:1.8;color:#374151}
     .totals{border:1px solid var(--border);border-radius:12px;overflow:hidden}.total-line{display:flex;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--border);font-size:14px}.total-line:last-child{border-bottom:0}.grand-total{background:#111827;color:white;font-size:18px;font-weight:900}.payment-status{margin-top:14px;display:inline-block;padding:8px 14px;border-radius:999px;background:#dcfce7;color:#166534;font-weight:800;font-size:13px}
     .footer{margin-top:35px;border-top:2px solid var(--primary);padding-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:13px}.signature{text-align:center;padding-top:25px;border-top:1px dashed #9ca3af;margin-top:35px;font-weight:800}.store-address{text-align:center;margin-top:22px;font-weight:800;line-height:1.8;font-size:13px}.empty-row{color:var(--muted);font-style:italic}.hidden-print{display:inline}
-
-    /* تحسين الجدول لمنع تراكب النصوص */
-    .invoice-table{table-layout:fixed}
-    .invoice-table th,.invoice-table td{overflow-wrap:anywhere;word-break:break-word;line-height:1.45}
-    .invoice-table th:nth-child(1),.invoice-table td:nth-child(1){width:36px}
-    .invoice-table th:nth-child(2),.invoice-table td:nth-child(2){width:120px}
-    .invoice-table th:nth-child(3),.invoice-table td:nth-child(3){width:110px}
-    .invoice-table th:nth-child(4),.invoice-table td:nth-child(4){width:65px}
-    .invoice-table th:nth-child(5),.invoice-table td:nth-child(5){width:55px}
-    .invoice-table th:nth-child(6),.invoice-table td:nth-child(6){width:85px}
-    .invoice-table th:nth-child(7),.invoice-table td:nth-child(7){width:85px}
-    .invoice-table th:nth-child(8),.invoice-table td:nth-child(8){width:110px}
-    .invoice-table th:nth-child(9),.invoice-table td:nth-child(9){width:55px}
-
-    /* علامة مائية احترافية آمنة داخل الفاتورة */
-    .invoice-watermark-bg{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-      user-select:none;
-      z-index:0;
-      overflow:hidden;
-    }
-    .invoice-watermark-bg span{
-      display:block;
-      transform:rotate(-28deg);
-      font-size:56px;
-      font-weight:900;
-      letter-spacing:4px;
-      color:rgba(17,24,39,.055);
-      white-space:nowrap;
-      direction:ltr;
-      text-align:center;
-    }
-    .invoice > *:not(.invoice-watermark-bg){
-      position:relative;
-      z-index:1;
-    }
-    .invoice.pdf-mode .no-pdf{
-      display:none!important;
-    }
-    .invoice.pdf-mode .invoice-watermark-bg span{
-      color:rgba(17,24,39,.07);
-      font-size:54px;
-    }
-
     @media(max-width:1000px){.app{grid-template-columns:1fr}.invoice-header{flex-direction:column}.store-meta{text-align:right;direction:rtl}.summary{grid-template-columns:1fr}}
     @media print{body{background:white}.panel{display:none}.app{display:block;max-width:none;margin:0;padding:0}.invoice{box-shadow:none;border-radius:0;min-height:auto;padding:20px}.hidden-print{display:none}@page{size:A4;margin:10mm}}
   </style>
@@ -105,7 +56,6 @@
     </section>
 
     <section class="invoice" id="invoice">
-      <div class="invoice-watermark-bg" aria-hidden="true"><span>IOS EGYPT ORIGINAL INVOICE</span></div>
       <header class="invoice-header">
         <div class="brand"><div class="logo-box"><div class="logo-text">ios</div></div><div class="brand-text"><h1>IOS EGYPT</h1><p>mobilestore</p></div></div>
         <div class="store-meta"><div class="apple-reseller"><span class="apple-icon">●</span><span>premium Reseller</span></div><div><strong>IOS EGYPT mobile store</strong></div><div>Maadi 9 Street Building 102 beside New Ahli National Bank</div><div>Tel: 0223806773</div></div>
@@ -115,7 +65,7 @@
         <div class="info-box"><h3>بيانات العميل</h3><div class="content"><div><strong>الاسم:</strong> <span id="previewCustomerName">غير محدد</span></div><div><strong>الهاتف:</strong> <span id="previewCustomerPhone">غير محدد</span></div><div><strong>العنوان:</strong> <span id="previewCustomerAddress">غير محدد</span></div></div></div>
         <div class="info-box"><h3>بيانات الفاتورة</h3><div class="content"><div><strong>التاريخ:</strong> <span id="previewInvoiceDate"></span></div><div><strong>طريقة الدفع:</strong> <span id="previewPaymentMethod">Cash</span></div><div><strong>حالة الدفع:</strong> <span id="previewPaymentStatusText">غير محدد</span></div></div></div>
       </section>
-      <table class="invoice-table"><thead><tr><th>#</th><th>المنتج</th><th>IMEI / Serial</th><th>الحالة</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th><th>ملاحظات</th><th class="hidden-print no-pdf">حذف</th></tr></thead><tbody id="invoiceItems"><tr><td colspan="9" class="empty-row">لا توجد منتجات مضافة</td></tr></tbody></table>
+      <table class="invoice-table"><thead><tr><th>#</th><th>المنتج</th><th>IMEI / Serial</th><th>الحالة</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th><th>ملاحظات</th><th class="hidden-print">حذف</th></tr></thead><tbody id="invoiceItems"><tr><td colspan="9" class="empty-row">لا توجد منتجات مضافة</td></tr></tbody></table>
       <section class="summary">
         <div><div class="terms"><h3>الشروط والملاحظات</h3><ul><li>برجاء مراجعة بيانات الجهاز والـ IMEI قبل مغادرة المحل.</li><li>لا يتم قبول الاسترجاع أو الاستبدال إلا حسب سياسة المحل وحالة الجهاز.</li><li>الضمان، إن وجد، يكون حسب نوع المنتج وحالته الموضحة في الفاتورة.</li><li>الفاتورة تعتبر إثبات شراء رسمي من IOS EGYPT mobile store.</li></ul></div><div style="margin-top:12px;font-size:13px;color:#374151"><strong>ملاحظات:</strong> <span id="previewGeneralNotes">لا توجد ملاحظات</span></div><span class="payment-status" id="previewPaymentStatusBadge">Payment Status</span></div>
         <div class="totals"><div class="total-line"><span>الإجمالي الفرعي</span><strong><span id="subtotal">0</span> EGP</strong></div><div class="total-line"><span>الخصم</span><strong><span id="discountValue">0</span> EGP</strong></div><div class="total-line"><span>ضريبة / مصاريف</span><strong><span id="taxValue">0</span> EGP</strong></div><div class="total-line grand-total"><span>الإجمالي النهائي</span><strong><span id="grandTotal">0</span> EGP</strong></div><div class="total-line"><span>المدفوع</span><strong><span id="paidValue">0</span> EGP</strong></div><div class="total-line"><span>المتبقي</span><strong><span id="remainingValue">0</span> EGP</strong></div></div>
@@ -135,52 +85,9 @@
     function clearItems(){if(!confirm("هل تريد مسح كل المنتجات من الفاتورة؟"))return;items=[];localStorage.removeItem(STORAGE_KEY);renderInvoice()}
     function calculateTotals(){const subtotal=items.reduce((sum,item)=>sum+Number(item.qty)*Number(item.price),0),discount=Number(elements.discount.value||0),tax=Number(elements.tax.value||0),paid=Number(elements.paidAmount.value||0),grandTotal=Math.max(subtotal-discount+tax,0),remaining=Math.max(grandTotal-paid,0);return{subtotal,discount,tax,paid,grandTotal,remaining}}
     function getPaymentStatus(grandTotal,paid){if(grandTotal===0)return{text:"غير محدد",badge:"No Items",bg:"#f3f4f6",color:"#374151"};if(paid<=0)return{text:"غير مدفوع",badge:"Unpaid",bg:"#fee2e2",color:"#991b1b"};if(paid<grandTotal)return{text:"مدفوع جزئياً",badge:"Partially Paid",bg:"#fef3c7",color:"#92400e"};return{text:"مدفوع بالكامل",badge:"Paid",bg:"#dcfce7",color:"#166534"}}
-    function renderInvoice(){document.getElementById("previewInvoiceNumber").textContent=elements.invoiceNumber.value||"INV-0001";document.getElementById("previewInvoiceDate").textContent=elements.invoiceDate.value||new Date().toISOString().slice(0,10);document.getElementById("previewCustomerName").textContent=elements.customerName.value.trim()||"غير محدد";document.getElementById("previewCustomerPhone").textContent=elements.customerPhone.value.trim()||"غير محدد";document.getElementById("previewCustomerAddress").textContent=elements.customerAddress.value.trim()||"غير محدد";document.getElementById("previewPaymentMethod").textContent=elements.paymentMethod.value;document.getElementById("previewGeneralNotes").textContent=elements.generalNotes.value.trim()||"لا توجد ملاحظات";if(items.length===0){elements.invoiceItems.innerHTML='<tr><td colspan="9" class="empty-row">لا توجد منتجات مضافة</td></tr>'}else{elements.invoiceItems.innerHTML=items.map((item,index)=>{const lineTotal=Number(item.qty)*Number(item.price);return `<tr><td>${index+1}</td><td class="product-name">${escapeHtml(item.name)}</td><td>${escapeHtml(item.serial||"-")}</td><td>${escapeHtml(item.condition)}</td><td>${item.qty}</td><td>${formatMoney(item.price)} EGP</td><td><strong>${formatMoney(lineTotal)} EGP</strong></td><td class="notes">${escapeHtml(item.notes||"-")}</td><td class="hidden-print no-pdf"><button onclick="removeItem(${item.id})" style="background:#dc2626;color:white;border:0;border-radius:8px;padding:6px 8px;cursor:pointer;">حذف</button></td></tr>`}).join("")}const totals=calculateTotals();document.getElementById("subtotal").textContent=formatMoney(totals.subtotal);document.getElementById("discountValue").textContent=formatMoney(totals.discount);document.getElementById("taxValue").textContent=formatMoney(totals.tax);document.getElementById("grandTotal").textContent=formatMoney(totals.grandTotal);document.getElementById("paidValue").textContent=formatMoney(totals.paid);document.getElementById("remainingValue").textContent=formatMoney(totals.remaining);const paymentStatus=getPaymentStatus(totals.grandTotal,totals.paid);document.getElementById("previewPaymentStatusText").textContent=paymentStatus.text;const badge=document.getElementById("previewPaymentStatusBadge");badge.textContent=paymentStatus.badge;badge.style.background=paymentStatus.bg;badge.style.color=paymentStatus.color}
+    function renderInvoice(){document.getElementById("previewInvoiceNumber").textContent=elements.invoiceNumber.value||"INV-0001";document.getElementById("previewInvoiceDate").textContent=elements.invoiceDate.value||new Date().toISOString().slice(0,10);document.getElementById("previewCustomerName").textContent=elements.customerName.value.trim()||"غير محدد";document.getElementById("previewCustomerPhone").textContent=elements.customerPhone.value.trim()||"غير محدد";document.getElementById("previewCustomerAddress").textContent=elements.customerAddress.value.trim()||"غير محدد";document.getElementById("previewPaymentMethod").textContent=elements.paymentMethod.value;document.getElementById("previewGeneralNotes").textContent=elements.generalNotes.value.trim()||"لا توجد ملاحظات";if(items.length===0){elements.invoiceItems.innerHTML='<tr><td colspan="9" class="empty-row">لا توجد منتجات مضافة</td></tr>'}else{elements.invoiceItems.innerHTML=items.map((item,index)=>{const lineTotal=Number(item.qty)*Number(item.price);return `<tr><td>${index+1}</td><td class="product-name">${escapeHtml(item.name)}</td><td>${escapeHtml(item.serial||"-")}</td><td>${escapeHtml(item.condition)}</td><td>${item.qty}</td><td>${formatMoney(item.price)} EGP</td><td><strong>${formatMoney(lineTotal)} EGP</strong></td><td class="notes">${escapeHtml(item.notes||"-")}</td><td class="hidden-print"><button onclick="removeItem(${item.id})" style="background:#dc2626;color:white;border:0;border-radius:8px;padding:6px 8px;cursor:pointer;">حذف</button></td></tr>`}).join("")}const totals=calculateTotals();document.getElementById("subtotal").textContent=formatMoney(totals.subtotal);document.getElementById("discountValue").textContent=formatMoney(totals.discount);document.getElementById("taxValue").textContent=formatMoney(totals.tax);document.getElementById("grandTotal").textContent=formatMoney(totals.grandTotal);document.getElementById("paidValue").textContent=formatMoney(totals.paid);document.getElementById("remainingValue").textContent=formatMoney(totals.remaining);const paymentStatus=getPaymentStatus(totals.grandTotal,totals.paid);document.getElementById("previewPaymentStatusText").textContent=paymentStatus.text;const badge=document.getElementById("previewPaymentStatusBadge");badge.textContent=paymentStatus.badge;badge.style.background=paymentStatus.bg;badge.style.color=paymentStatus.color}
     function saveInvoice(){const invoiceData={invoiceNumber:elements.invoiceNumber.value,invoiceDate:elements.invoiceDate.value,customerName:elements.customerName.value,customerPhone:elements.customerPhone.value,customerAddress:elements.customerAddress.value,paymentMethod:elements.paymentMethod.value,items,totals:calculateTotals(),generalNotes:elements.generalNotes.value,createdAt:new Date().toISOString()};localStorage.setItem(`ios_egypt_saved_invoice_${invoiceData.invoiceNumber}`,JSON.stringify(invoiceData));alert("تم حفظ الفاتورة محلياً على المتصفح.")}
-    function saveAsPDF(){
-      const invoiceElement=document.getElementById("invoice");
-      const invoiceNumber=elements.invoiceNumber.value||"IOS-INVOICE";
-      const emptyRow=invoiceElement.querySelector(".empty-row");
-      const oldColspan=emptyRow?emptyRow.getAttribute("colspan"):null;
-
-      invoiceElement.classList.add("pdf-mode");
-
-      if(emptyRow){
-        emptyRow.setAttribute("colspan","8");
-      }
-
-      const options={
-        margin:8,
-        filename:`${invoiceNumber}.pdf`,
-        image:{type:"jpeg",quality:.98},
-        html2canvas:{
-          scale:2,
-          useCORS:true,
-          backgroundColor:"#ffffff",
-          scrollX:0,
-          scrollY:0
-        },
-        jsPDF:{
-          unit:"mm",
-          format:"a4",
-          orientation:"portrait"
-        }
-      };
-
-      html2pdf()
-        .set(options)
-        .from(invoiceElement)
-        .save()
-        .then(()=>{
-          invoiceElement.classList.remove("pdf-mode");
-          if(emptyRow&&oldColspan!==null){emptyRow.setAttribute("colspan",oldColspan);}
-        })
-        .catch(()=>{
-          invoiceElement.classList.remove("pdf-mode");
-          if(emptyRow&&oldColspan!==null){emptyRow.setAttribute("colspan",oldColspan);}
-          alert("حدث خطأ أثناء حفظ PDF. جرّب مرة أخرى.");
-        });
-    }
+    function saveAsPDF(){const invoiceElement=document.getElementById("invoice"),invoiceNumber=elements.invoiceNumber.value||"IOS-INVOICE";const options={margin:8,filename:`${invoiceNumber}.pdf`,image:{type:"jpeg",quality:.98},html2canvas:{scale:2,useCORS:true,scrollY:0},jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}};html2pdf().set(options).from(invoiceElement).save()}
     function newInvoice(){if(!confirm("هل تريد إنشاء فاتورة جديدة؟ سيتم مسح البيانات الحالية من الشاشة."))return;items=[];localStorage.removeItem(STORAGE_KEY);elements.customerName.value="";elements.customerPhone.value="";elements.customerAddress.value="";elements.paymentMethod.value="Cash";elements.discount.value=0;elements.tax.value=0;elements.paidAmount.value=0;elements.generalNotes.value="";setDefaultData();renderInvoice()}
     function escapeHtml(value){return String(value).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
     ["invoiceNumber","invoiceDate","customerName","customerPhone","customerAddress","paymentMethod","discount","tax","paidAmount","generalNotes"].forEach(id=>{document.getElementById(id).addEventListener("input",renderInvoice);document.getElementById(id).addEventListener("change",renderInvoice)});
