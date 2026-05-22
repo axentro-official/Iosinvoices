@@ -23,15 +23,52 @@
     .brand{display:flex;align-items:center;gap:14px}.logo-box{width:120px;height:72px;border:3px solid #84b9cc;border-radius:20px;display:flex;align-items:center;justify-content:center;position:relative;direction:ltr}
     .logo-box::before{content:"";width:13px;height:13px;background:#243244;border-radius:50%;position:absolute;left:12px;top:28px}.logo-text{font-size:44px;font-weight:900;color:#243244;letter-spacing:-7px;transform:scaleX(1.25);margin-left:12px}
     .brand-text h1{margin:0;font-size:34px;letter-spacing:1px;font-weight:900}.brand-text p{margin:2px 0 0;letter-spacing:9px;font-size:19px;font-weight:700;color:#111827;direction:ltr;text-align:left}
-    .store-meta{text-align:left;direction:ltr;font-size:13px;color:var(--primary);line-height:1.7;min-width:280px}.apple-reseller{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:8px;font-size:15px}.apple-icon{font-size:28px;line-height:1}
+    
+    /* ✅ التعديل 2: إصلاح مشكلة التراكب في النصوص */
+    .store-meta{text-align:left;direction:ltr;font-size:13px;color:var(--primary);line-height:1.7;min-width:280px;word-wrap:break-word;overflow-wrap:break-word}
+    .apple-reseller{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:8px;font-size:15px}.apple-icon{font-size:28px;line-height:1}
+    
     .invoice-title{display:flex;align-items:center;justify-content:space-between;background:#111827;color:#fff;padding:14px 18px;border-radius:12px;margin-bottom:22px}.invoice-title h2{margin:0;font-size:25px}.invoice-title span{font-size:15px;font-weight:700}
-    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}.info-box{border:1px solid var(--border);border-radius:12px;overflow:hidden}.info-box h3{margin:0;background:var(--light);padding:10px 12px;font-size:16px;border-bottom:1px solid var(--border)}.info-box .content{padding:12px;min-height:108px;line-height:1.8;font-size:14px}
-    .invoice-table{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:13px}.invoice-table th{background:#111827;color:#fff;padding:11px 8px;border:1px solid #111827;text-align:center}.invoice-table td{border:1px solid var(--border);padding:10px 8px;text-align:center;vertical-align:top}.invoice-table td.product-name{text-align:right;font-weight:700}.invoice-table td.notes{color:var(--muted);font-size:12px}
-    .summary{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;margin-top:18px}.terms{border:1px solid var(--border);border-radius:12px;overflow:hidden}.terms h3{margin:0;background:var(--light);padding:10px 12px;font-size:15px}.terms ul{margin:0;padding:14px 28px 14px 14px;font-size:12px;line-height:1.8;color:#374151}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}.info-box{border:1px solid var(--border);border-radius:12px;overflow:hidden}.info-box h3{margin:0;background:var(--light);padding:10px 12px;font-size:16px;border-bottom:1px solid var(--border)}
+    
+    /* ✅ التعديل 2: إضافة word-wrap لمحتوى صناديق المعلومات */
+    .info-box .content{padding:12px;min-height:108px;line-height:1.8;font-size:14px;word-wrap:break-word;overflow-wrap:break-word}
+    
+    .invoice-table{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:13px}.invoice-table th{background:#111827;color:#fff;padding:11px 8px;border:1px solid #111827;text-align:center}
+    
+    /* ✅ التعديل 2: إضافة word-wrap و max-width لخلانات الجدول */
+    .invoice-table td{border:1px solid var(--border);padding:10px 8px;text-align:center;vertical-align:top;word-wrap:break-word;overflow-wrap:break-word;max-width:150px}
+    .invoice-table td.product-name{text-align:right;font-weight:700}.invoice-table td.notes{color:var(--muted);font-size:12px}
+    
+    .summary{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;margin-top:18px}.terms{border:1px solid var(--border);border-radius:12px;overflow:hidden}.terms h3{margin:0;background:var(--light);padding:10px 12px;font-size:15px}
+    
+    /* ✅ التعديل 2: إضافة word-wrap لقائمة الشروط */
+    .terms ul{margin:0;padding:14px 28px 14px 14px;font-size:12px;line-height:1.8;color:#374151;word-wrap:break-word;overflow-wrap:break-word}
+    
     .totals{border:1px solid var(--border);border-radius:12px;overflow:hidden}.total-line{display:flex;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--border);font-size:14px}.total-line:last-child{border-bottom:0}.grand-total{background:#111827;color:white;font-size:18px;font-weight:900}.payment-status{margin-top:14px;display:inline-block;padding:8px 14px;border-radius:999px;background:#dcfce7;color:#166534;font-weight:800;font-size:13px}
-    .footer{margin-top:35px;border-top:2px solid var(--primary);padding-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:13px}.signature{text-align:center;padding-top:25px;border-top:1px dashed #9ca3af;margin-top:35px;font-weight:800}.store-address{text-align:center;margin-top:22px;font-weight:800;line-height:1.8;font-size:13px}.empty-row{color:var(--muted);font-style:italic}.hidden-print{display:inline}
+    
+    /* ✅ التعديل 2: إضافة word-wrap للفوتر */
+    .footer{margin-top:35px;border-top:2px solid var(--primary);padding-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:13px;word-wrap:break-word;overflow-wrap:break-word}
+    .signature{text-align:center;padding-top:25px;border-top:1px dashed #9ca3af;margin-top:35px;font-weight:800}
+    .store-address{text-align:center;margin-top:22px;font-weight:800;line-height:1.8;font-size:13px;word-wrap:break-word;overflow-wrap:break-word}
+    .empty-row{color:var(--muted);font-style:italic}.hidden-print{display:inline}
+    
+    /* ✅ التعديل 1: إخفاء عناصر التحكم عند الطباعة والتصدير */
+    @media print{
+      body{background:white}
+      .panel{display:none}
+      .app{display:block;max-width:none;margin:0;padding:0}
+      .invoice{box-shadow:none;border-radius:0;min-height:auto;padding:20px}
+      .hidden-print{display:none!important}
+      @page{size:A4;margin:10mm}
+    }
+    
+    /* ✅ التعديل 1: حالة خاصة للتصدير إلى PDF - إخفاء الأزرار */
+    body.pdf-export-mode .hidden-print{
+      display:none!important;
+    }
+    
     @media(max-width:1000px){.app{grid-template-columns:1fr}.invoice-header{flex-direction:column}.store-meta{text-align:right;direction:rtl}.summary{grid-template-columns:1fr}}
-    @media print{body{background:white}.panel{display:none}.app{display:block;max-width:none;margin:0;padding:0}.invoice{box-shadow:none;border-radius:0;min-height:auto;padding:20px}.hidden-print{display:none}@page{size:A4;margin:10mm}}
   </style>
 </head>
 <body>
@@ -67,7 +104,7 @@
       </section>
       <table class="invoice-table"><thead><tr><th>#</th><th>المنتج</th><th>IMEI / Serial</th><th>الحالة</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th><th>ملاحظات</th><th class="hidden-print">حذف</th></tr></thead><tbody id="invoiceItems"><tr><td colspan="9" class="empty-row">لا توجد منتجات مضافة</td></tr></tbody></table>
       <section class="summary">
-        <div><div class="terms"><h3>الشروط والملاحظات</h3><ul><li>برجاء مراجعة بيانات الجهاز والـ IMEI قبل مغادرة المحل.</li><li>لا يتم قبول الاسترجاع أو الاستبدال إلا حسب سياسة المحل وحالة الجهاز.</li><li>الضمان، إن وجد، يكون حسب نوع المنتج وحالته الموضحة في الفاتورة.</li><li>الفاتورة تعتبر إثبات شراء رسمي من IOS EGYPT mobile store.</li></ul></div><div style="margin-top:12px;font-size:13px;color:#374151"><strong>ملاحظات:</strong> <span id="previewGeneralNotes">لا توجد ملاحظات</span></div><span class="payment-status" id="previewPaymentStatusBadge">Payment Status</span></div>
+        <div><div class="terms"><h3>الشروط والملاحظات</h3><ul><li>برجاء مراجعة بيانات الجهاز والـ IMEI قبل مغادرة المحل.</li><li>لا يتم قبول الاسترجاع أو الاستبدال إلا حسب سياسة المحل وحالة الجهاز.</li><li>الضمان، إن وجد، يكون حسب نوع المنتج وحالته الموضحة في الفاتورة.</li><li>الفاتورة تعتبر إثبات شراء رسمي من IOS EGYPT mobile store.</li></ul></div><div style="margin-top:12px;font-size:13px;color:#374151;word-wrap:break-word;overflow-wrap:break-word"><strong>ملاحظات:</strong> <span id="previewGeneralNotes">لا توجد ملاحظات</span></div><span class="payment-status" id="previewPaymentStatusBadge">Payment Status</span></div>
         <div class="totals"><div class="total-line"><span>الإجمالي الفرعي</span><strong><span id="subtotal">0</span> EGP</strong></div><div class="total-line"><span>الخصم</span><strong><span id="discountValue">0</span> EGP</strong></div><div class="total-line"><span>ضريبة / مصاريف</span><strong><span id="taxValue">0</span> EGP</strong></div><div class="total-line grand-total"><span>الإجمالي النهائي</span><strong><span id="grandTotal">0</span> EGP</strong></div><div class="total-line"><span>المدفوع</span><strong><span id="paidValue">0</span> EGP</strong></div><div class="total-line"><span>المتبقي</span><strong><span id="remainingValue">0</span> EGP</strong></div></div>
       </section>
       <footer class="footer"><div><strong>بيانات المحل:</strong><div class="store-address">١٠٢ شارع ٩ المعادي بجوار البنك الأهلي المصري<br />Maadi 9 Street Building 102 beside New Ahli National Bank<br />TEL: 0223806773</div></div><div><div class="signature">توقيع وختم المحل</div></div></footer>
@@ -87,7 +124,38 @@
     function getPaymentStatus(grandTotal,paid){if(grandTotal===0)return{text:"غير محدد",badge:"No Items",bg:"#f3f4f6",color:"#374151"};if(paid<=0)return{text:"غير مدفوع",badge:"Unpaid",bg:"#fee2e2",color:"#991b1b"};if(paid<grandTotal)return{text:"مدفوع جزئياً",badge:"Partially Paid",bg:"#fef3c7",color:"#92400e"};return{text:"مدفوع بالكامل",badge:"Paid",bg:"#dcfce7",color:"#166534"}}
     function renderInvoice(){document.getElementById("previewInvoiceNumber").textContent=elements.invoiceNumber.value||"INV-0001";document.getElementById("previewInvoiceDate").textContent=elements.invoiceDate.value||new Date().toISOString().slice(0,10);document.getElementById("previewCustomerName").textContent=elements.customerName.value.trim()||"غير محدد";document.getElementById("previewCustomerPhone").textContent=elements.customerPhone.value.trim()||"غير محدد";document.getElementById("previewCustomerAddress").textContent=elements.customerAddress.value.trim()||"غير محدد";document.getElementById("previewPaymentMethod").textContent=elements.paymentMethod.value;document.getElementById("previewGeneralNotes").textContent=elements.generalNotes.value.trim()||"لا توجد ملاحظات";if(items.length===0){elements.invoiceItems.innerHTML='<tr><td colspan="9" class="empty-row">لا توجد منتجات مضافة</td></tr>'}else{elements.invoiceItems.innerHTML=items.map((item,index)=>{const lineTotal=Number(item.qty)*Number(item.price);return `<tr><td>${index+1}</td><td class="product-name">${escapeHtml(item.name)}</td><td>${escapeHtml(item.serial||"-")}</td><td>${escapeHtml(item.condition)}</td><td>${item.qty}</td><td>${formatMoney(item.price)} EGP</td><td><strong>${formatMoney(lineTotal)} EGP</strong></td><td class="notes">${escapeHtml(item.notes||"-")}</td><td class="hidden-print"><button onclick="removeItem(${item.id})" style="background:#dc2626;color:white;border:0;border-radius:8px;padding:6px 8px;cursor:pointer;">حذف</button></td></tr>`}).join("")}const totals=calculateTotals();document.getElementById("subtotal").textContent=formatMoney(totals.subtotal);document.getElementById("discountValue").textContent=formatMoney(totals.discount);document.getElementById("taxValue").textContent=formatMoney(totals.tax);document.getElementById("grandTotal").textContent=formatMoney(totals.grandTotal);document.getElementById("paidValue").textContent=formatMoney(totals.paid);document.getElementById("remainingValue").textContent=formatMoney(totals.remaining);const paymentStatus=getPaymentStatus(totals.grandTotal,totals.paid);document.getElementById("previewPaymentStatusText").textContent=paymentStatus.text;const badge=document.getElementById("previewPaymentStatusBadge");badge.textContent=paymentStatus.badge;badge.style.background=paymentStatus.bg;badge.style.color=paymentStatus.color}
     function saveInvoice(){const invoiceData={invoiceNumber:elements.invoiceNumber.value,invoiceDate:elements.invoiceDate.value,customerName:elements.customerName.value,customerPhone:elements.customerPhone.value,customerAddress:elements.customerAddress.value,paymentMethod:elements.paymentMethod.value,items,totals:calculateTotals(),generalNotes:elements.generalNotes.value,createdAt:new Date().toISOString()};localStorage.setItem(`ios_egypt_saved_invoice_${invoiceData.invoiceNumber}`,JSON.stringify(invoiceData));alert("تم حفظ الفاتورة محلياً على المتصفح.")}
-    function saveAsPDF(){const invoiceElement=document.getElementById("invoice"),invoiceNumber=elements.invoiceNumber.value||"IOS-INVOICE";const options={margin:8,filename:`${invoiceNumber}.pdf`,image:{type:"jpeg",quality:.98},html2canvas:{scale:2,useCORS:true,scrollY:0},jsPDF:{unit:"mm",format:"a4",orientation:"portrait"}};html2pdf().set(options).from(invoiceElement).save()}
+    
+    // ✅✅✅ التعديل الرئيسي الأول: دالة محسنة لحفظ PDF مع إخفاء أزرار الحذف ✅✅✅
+    async function saveAsPDF(){
+      const invoiceElement=document.getElementById("invoice");
+      const invoiceNumber=elements.invoiceNumber.value||"IOS-INVOICE";
+      
+      // إخفاء عناصر التحكم (أزرار الحذف) قبل التصدير
+      document.body.classList.add('pdf-export-mode');
+      
+      const options={
+        margin:8,
+        filename:`${invoiceNumber}.pdf`,
+        image:{type:'jpeg',quality:.98},
+        html2canvas:{
+          scale:2,
+          useCORS:true,
+          scrollY:0
+        },
+        jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}
+      };
+      
+      try {
+        await html2pdf().set(options).from(invoiceElement).save();
+      } catch (error) {
+        console.error('خطأ في حفظ PDF:', error);
+        alert('حدث خطأ أثناء حفظ ملف PDF');
+      } finally {
+        // إعادة إظهار عناصر التحكم بعد الانتهاء
+        document.body.classList.remove('pdf-export-mode');
+      }
+    }
+    
     function newInvoice(){if(!confirm("هل تريد إنشاء فاتورة جديدة؟ سيتم مسح البيانات الحالية من الشاشة."))return;items=[];localStorage.removeItem(STORAGE_KEY);elements.customerName.value="";elements.customerPhone.value="";elements.customerAddress.value="";elements.paymentMethod.value="Cash";elements.discount.value=0;elements.tax.value=0;elements.paidAmount.value=0;elements.generalNotes.value="";setDefaultData();renderInvoice()}
     function escapeHtml(value){return String(value).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
     ["invoiceNumber","invoiceDate","customerName","customerPhone","customerAddress","paymentMethod","discount","tax","paidAmount","generalNotes"].forEach(id=>{document.getElementById(id).addEventListener("input",renderInvoice);document.getElementById(id).addEventListener("change",renderInvoice)});
