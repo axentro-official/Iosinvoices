@@ -493,37 +493,7 @@
     .hidden-print {
       display: inline;
     }
-
-
-    /* علامة مائية مائلة على كامل الفاتورة */
-    .invoice::after {
-      content: "IOS EGYPT ORIGINAL INVOICE";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-28deg);
-      width: 120%;
-      text-align: center;
-      font-size: 58px;
-      font-weight: 900;
-      letter-spacing: 4px;
-      color: rgba(17, 24, 39, 0.055);
-      white-space: nowrap;
-      pointer-events: none;
-      user-select: none;
-      z-index: 0;
-    }
-
-    .invoice > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .invoice::before {
-      z-index: 0;
-    }
-
-    @media (max-width: 1000px) {
+@media (max-width: 1000px) {
       .app {
         grid-template-columns: 1fr;
       }
@@ -559,32 +529,7 @@
     .pdf-export::before {
       inset: 14px !important;
     }
-
-
-    .pdf-export::after {
-      content: "IOS EGYPT ORIGINAL INVOICE" !important;
-      position: absolute !important;
-      top: 47% !important;
-      left: 50% !important;
-      transform: translate(-50%, -50%) rotate(-28deg) !important;
-      width: 120% !important;
-      text-align: center !important;
-      font-size: 50px !important;
-      font-weight: 900 !important;
-      letter-spacing: 4px !important;
-      color: rgba(17, 24, 39, 0.06) !important;
-      white-space: nowrap !important;
-      pointer-events: none !important;
-      user-select: none !important;
-      z-index: 0 !important;
-    }
-
-    .pdf-export > * {
-      position: relative !important;
-      z-index: 1 !important;
-    }
-
-    .pdf-export .no-pdf {
+.pdf-export .no-pdf {
       display: none !important;
     }
 
@@ -814,6 +759,8 @@
 
     <!-- Invoice Preview -->
     <section class="invoice" id="invoice">
+      <div class="page-watermark" aria-hidden="true"><span>IOS EGYPT ORIGINAL INVOICE</span></div>
+      <div class="invoice-content">
 
       <header class="invoice-header">
         <div class="brand">
@@ -953,6 +900,7 @@
         </div>
       </footer>
 
+      </div>
     </section>
   </main>
 
@@ -1222,24 +1170,14 @@
       const invoiceElement = document.getElementById("invoice");
       const invoiceNumber = elements.invoiceNumber.value || "IOS-INVOICE";
 
-      const clone = invoiceElement.cloneNode(true);
-      clone.classList.add("pdf-export");
+      invoiceElement.classList.add("pdf-export");
 
-      clone.querySelectorAll(".no-pdf").forEach(el => el.remove());
+      const emptyRow = invoiceElement.querySelector(".empty-row");
+      const oldColspan = emptyRow ? emptyRow.getAttribute("colspan") : null;
 
-      const emptyRow = clone.querySelector(".empty-row");
       if (emptyRow) {
         emptyRow.setAttribute("colspan", "8");
       }
-
-      const wrapper = document.createElement("div");
-      wrapper.style.position = "fixed";
-      wrapper.style.left = "-10000px";
-      wrapper.style.top = "0";
-      wrapper.style.width = "794px";
-      wrapper.style.background = "#ffffff";
-      wrapper.appendChild(clone);
-      document.body.appendChild(wrapper);
 
       const options = {
         margin: [8, 8, 8, 8],
@@ -1251,6 +1189,7 @@
         html2canvas: {
           scale: 2,
           useCORS: true,
+          backgroundColor: "#ffffff",
           scrollX: 0,
           scrollY: 0,
           windowWidth: 794
@@ -1268,13 +1207,22 @@
 
       html2pdf()
         .set(options)
-        .from(clone)
+        .from(invoiceElement)
         .save()
         .then(() => {
-          document.body.removeChild(wrapper);
+          invoiceElement.classList.remove("pdf-export");
+
+          if (emptyRow && oldColspan !== null) {
+            emptyRow.setAttribute("colspan", oldColspan);
+          }
         })
         .catch(() => {
-          document.body.removeChild(wrapper);
+          invoiceElement.classList.remove("pdf-export");
+
+          if (emptyRow && oldColspan !== null) {
+            emptyRow.setAttribute("colspan", oldColspan);
+          }
+
           alert("حدث خطأ أثناء حفظ PDF. جرّب مرة أخرى.");
         });
     }
