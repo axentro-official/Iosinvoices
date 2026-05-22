@@ -3,1205 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>IOS EGYPT - Invoice System</title>
-
-  <!-- PDF Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
   <style>
-    :root {
-      --primary: #111827;
-      --secondary: #2563eb;
-      --accent: #0ea5e9;
-      --muted: #6b7280;
-      --light: #f3f4f6;
-      --border: #d1d5db;
-      --danger: #dc2626;
-      --success: #16a34a;
-      --paper: #ffffff;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Tahoma, sans-serif;
-      background: #e5e7eb;
-      color: var(--primary);
-    }
-
-    .app {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 16px;
-      display: grid;
-      grid-template-columns: 420px 1fr;
-      gap: 20px;
-    }
-
-    .panel,
-    .invoice {
-      background: var(--paper);
-      border-radius: 18px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-    }
-
-    .panel {
-      padding: 20px;
-      height: fit-content;
-    }
-
-    .panel h2 {
-      margin: 0 0 16px;
-      font-size: 22px;
-      border-bottom: 2px solid var(--light);
-      padding-bottom: 12px;
-    }
-
-    .form-group {
-      margin-bottom: 12px;
-    }
-
-    label {
-      display: block;
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 6px;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 11px 12px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 14px;
-      outline: none;
-      background: #fff;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: var(--secondary);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 70px;
-    }
-
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .btn {
-      border: 0;
-      padding: 12px 14px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 800;
-      font-size: 14px;
-      width: 100%;
-      transition: 0.2s;
-    }
-
-    .btn-primary {
-      background: var(--secondary);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: #1d4ed8;
-    }
-
-    .btn-dark {
-      background: var(--primary);
-      color: white;
-    }
-
-    .btn-dark:hover {
-      background: #000;
-    }
-
-    .btn-danger {
-      background: var(--danger);
-      color: white;
-    }
-
-    .btn-danger:hover {
-      background: #b91c1c;
-    }
-
-    .btn-success {
-      background: var(--success);
-      color: white;
-    }
-
-    .btn-success:hover {
-      background: #15803d;
-    }
-
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .invoice {
-      padding: 34px;
-      min-height: 900px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .invoice::before {
-      content: "";
-      position: absolute;
-      inset: 20px;
-      border: 2px solid #111827;
-      border-radius: 12px;
-      pointer-events: none;
-      opacity: 0.08;
-    }
-
-    .invoice-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      border-bottom: 3px solid var(--primary);
-      padding-bottom: 20px;
-      margin-bottom: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .logo-box {
-      width: 120px;
-      height: 72px;
-      border: 3px solid #84b9cc;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      direction: ltr;
-      flex-shrink: 0;
-    }
-
-    .logo-box::before {
-      content: "";
-      width: 13px;
-      height: 13px;
-      background: #243244;
-      border-radius: 50%;
-      position: absolute;
-      left: 12px;
-      top: 28px;
-    }
-
-    .logo-text {
-      font-size: 44px;
-      font-weight: 900;
-      color: #243244;
-      letter-spacing: -7px;
-      transform: scaleX(1.25);
-      margin-left: 12px;
-    }
-
-    .brand-text h1 {
-      margin: 0;
-      font-size: 34px;
-      letter-spacing: 1px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .brand-text p {
-      margin: 2px 0 0;
-      letter-spacing: 9px;
-      font-size: 19px;
-      font-weight: 700;
-      color: #111827;
-      direction: ltr;
-      text-align: left;
-      white-space: nowrap;
-    }
-
-    .store-meta {
-      text-align: left;
-      direction: ltr;
-      font-size: 13px;
-      color: var(--primary);
-      line-height: 1.7;
-      min-width: 280px;
-    }
-
-    .apple-reseller {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 8px;
-      font-weight: 800;
-      margin-bottom: 8px;
-      font-size: 15px;
-    }
-
-    .apple-icon {
-      font-size: 28px;
-      line-height: 1;
-    }
-
-    .invoice-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #111827;
-      color: #fff;
-      padding: 14px 18px;
-      border-radius: 12px;
-      margin-bottom: 22px;
-    }
-
-    .invoice-title h2 {
-      margin: 0;
-      font-size: 25px;
-    }
-
-    .invoice-title span {
-      font-size: 15px;
-      font-weight: 700;
-      direction: ltr;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-
-    .info-box {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .info-box h3 {
-      margin: 0;
-      background: var(--light);
-      padding: 10px 12px;
-      font-size: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .info-box .content {
-      padding: 12px;
-      min-height: 108px;
-      line-height: 1.8;
-      font-size: 14px;
-    }
-
-    .invoice-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 18px;
-      font-size: 12px;
-      table-layout: fixed;
-    }
-
-    .invoice-table th {
-      background: #111827;
-      color: #fff;
-      padding: 10px 6px;
-      border: 1px solid #111827;
-      text-align: center;
-      line-height: 1.4;
-      word-break: break-word;
-    }
-
-    .invoice-table td {
-      border: 1px solid var(--border);
-      padding: 9px 6px;
-      text-align: center;
-      vertical-align: top;
-      line-height: 1.5;
-      word-break: break-word;
-      overflow-wrap: anywhere;
-    }
-
-    .invoice-table td.product-name {
-      text-align: right;
-      font-weight: 700;
-    }
-
-    .invoice-table td.notes {
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .col-id {
-      width: 38px;
-    }
-
-    .col-product {
-      width: 130px;
-    }
-
-    .col-serial {
-      width: 115px;
-    }
-
-    .col-condition {
-      width: 70px;
-    }
-
-    .col-qty {
-      width: 55px;
-    }
-
-    .col-price,
-    .col-total {
-      width: 85px;
-    }
-
-    .col-notes {
-      width: 120px;
-    }
-
-    .col-delete {
-      width: 55px;
-    }
-
-    .summary {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 20px;
-      align-items: start;
-      margin-top: 18px;
-    }
-
-    .terms {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .terms h3 {
-      margin: 0;
-      background: var(--light);
-      padding: 10px 12px;
-      font-size: 15px;
-    }
-
-    .terms ul {
-      margin: 0;
-      padding: 14px 28px 14px 14px;
-      font-size: 12px;
-      line-height: 2;
-      color: #374151;
-    }
-
-    .totals {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-
-    .total-line {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 11px 14px;
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .total-line:last-child {
-      border-bottom: 0;
-    }
-
-    .total-line strong {
-      direction: ltr;
-      white-space: nowrap;
-    }
-
-    .grand-total {
-      background: #111827;
-      color: white;
-      font-size: 18px;
-      font-weight: 900;
-    }
-
-    .payment-status {
-      margin-top: 14px;
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: #dcfce7;
-      color: #166534;
-      font-weight: 800;
-      font-size: 13px;
-      direction: ltr;
-    }
-
-    .footer {
-      margin-top: 35px;
-      border-top: 2px solid var(--primary);
-      padding-top: 14px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      font-size: 13px;
-      page-break-inside: avoid;
-    }
-
-    .signature {
-      text-align: center;
-      padding-top: 25px;
-      border-top: 1px dashed #9ca3af;
-      margin-top: 35px;
-      font-weight: 800;
-    }
-
-    .store-address {
-      text-align: center;
-      margin-top: 22px;
-      font-weight: 800;
-      line-height: 1.8;
-      font-size: 13px;
-    }
-
-    .empty-row {
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    .hidden-print {
-      display: inline;
-    }
-@media (max-width: 1000px) {
-      .app {
-        grid-template-columns: 1fr;
-      }
-
-      .invoice-header {
-        flex-direction: column;
-      }
-
-      .store-meta {
-        text-align: right;
-        direction: rtl;
-      }
-
-      .summary {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* إعدادات خاصة بنسخة PDF فقط */
-    .pdf-export {
-      width: 794px !important;
-      max-width: 794px !important;
-      min-height: auto !important;
-      padding: 28px !important;
-      margin: 0 !important;
-      box-shadow: none !important;
-      border-radius: 12px !important;
-      overflow: visible !important;
-      background: #ffffff !important;
-      direction: rtl !important;
-    }
-
-    .pdf-export::before {
-      inset: 14px !important;
-    }
-.pdf-export .no-pdf {
-      display: none !important;
-    }
-
-    .pdf-export .invoice-header,
-    .pdf-export .info-grid,
-    .pdf-export .summary,
-    .pdf-export .footer,
-    .pdf-export .terms,
-    .pdf-export .totals,
-    .pdf-export .info-box,
-    .pdf-export table,
-    .pdf-export tr {
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
-
-    .pdf-export .invoice-header {
-      flex-direction: row !important;
-      align-items: flex-start !important;
-      gap: 18px !important;
-    }
-
-    .pdf-export .brand {
-      flex-direction: row !important;
-      align-items: center !important;
-    }
-
-    .pdf-export .brand-text h1 {
-      font-size: 31px !important;
-    }
-
-    .pdf-export .brand-text p {
-      font-size: 16px !important;
-      letter-spacing: 8px !important;
-    }
-
-    .pdf-export .store-meta {
-      text-align: left !important;
-      direction: ltr !important;
-      min-width: 250px !important;
-      font-size: 12px !important;
-    }
-
-    .pdf-export .invoice-table {
-      font-size: 11px !important;
-      table-layout: fixed !important;
-    }
-
-    .pdf-export .invoice-table th,
-    .pdf-export .invoice-table td {
-      padding: 7px 5px !important;
-      line-height: 1.55 !important;
-      overflow-wrap: anywhere !important;
-      word-break: break-word !important;
-    }
-
-    .pdf-export .summary {
-      grid-template-columns: 1fr 300px !important;
-      gap: 14px !important;
-    }
-
-    .pdf-export .terms ul {
-      font-size: 11px !important;
-      line-height: 2.1 !important;
-    }
-
-    .pdf-export .footer {
-      margin-top: 26px !important;
-    }
-
-    @media print {
-      body {
-        background: white;
-      }
-
-      .panel {
-        display: none;
-      }
-
-      .app {
-        display: block;
-        max-width: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      .invoice {
-        box-shadow: none;
-        border-radius: 0;
-        min-height: auto;
-        padding: 20px;
-      }
-
-      .hidden-print,
-      .no-pdf {
-        display: none !important;
-      }
-
-      @page {
-        size: A4;
-        margin: 10mm;
-      }
-    }
+    :root{--primary:#111827;--secondary:#2563eb;--muted:#6b7280;--light:#f3f4f6;--border:#d1d5db;--danger:#dc2626;--success:#16a34a;--paper:#fff}
+    *{box-sizing:border-box}body{margin:0;font-family:Arial,Tahoma,sans-serif;background:#e5e7eb;color:var(--primary)}
+    .app{max-width:1200px;margin:20px auto;padding:16px;display:grid;grid-template-columns:420px 1fr;gap:20px}
+    .panel,.invoice{background:var(--paper);border-radius:18px;box-shadow:0 12px 35px rgba(0,0,0,.08)}
+    .panel{padding:20px;height:fit-content}.panel h2{margin:0 0 16px;font-size:22px;border-bottom:2px solid var(--light);padding-bottom:12px}
+    .form-group{margin-bottom:12px}label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+    input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:10px;font-size:14px;outline:none;background:#fff}
+    input:focus,select:focus,textarea:focus{border-color:var(--secondary);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+    textarea{resize:vertical;min-height:70px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn{border:0;padding:12px 14px;border-radius:10px;cursor:pointer;font-weight:800;font-size:14px;width:100%;transition:.2s}
+    .btn-primary{background:var(--secondary);color:white}.btn-primary:hover{background:#1d4ed8}.btn-dark{background:var(--primary);color:white}.btn-dark:hover{background:#000}
+    .btn-danger{background:var(--danger);color:white}.btn-success{background:var(--success);color:white}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+    .invoice{padding:34px;min-height:900px;position:relative;overflow:hidden}.invoice::before{content:"";position:absolute;inset:20px;border:2px solid #111827;border-radius:12px;pointer-events:none;opacity:.08}
+    .invoice-header{display:flex;justify-content:space-between;gap:20px;border-bottom:3px solid var(--primary);padding-bottom:20px;margin-bottom:24px}
+    .brand{display:flex;align-items:center;gap:14px}.logo-box{width:120px;height:72px;border:3px solid #84b9cc;border-radius:20px;display:flex;align-items:center;justify-content:center;position:relative;direction:ltr}
+    .logo-box::before{content:"";width:13px;height:13px;background:#243244;border-radius:50%;position:absolute;left:12px;top:28px}.logo-text{font-size:44px;font-weight:900;color:#243244;letter-spacing:-7px;transform:scaleX(1.25);margin-left:12px}
+    .brand-text h1{margin:0;font-size:34px;letter-spacing:1px;font-weight:900}.brand-text p{margin:2px 0 0;letter-spacing:9px;font-size:19px;font-weight:700;color:#111827;direction:ltr;text-align:left}
+    .store-meta{text-align:left;direction:ltr;font-size:13px;color:var(--primary);line-height:1.7;min-width:280px}.apple-reseller{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:8px;font-size:15px}.apple-icon{font-size:28px;line-height:1}
+    .invoice-title{display:flex;align-items:center;justify-content:space-between;background:#111827;color:#fff;padding:14px 18px;border-radius:12px;margin-bottom:22px}.invoice-title h2{margin:0;font-size:25px}.invoice-title span{font-size:15px;font-weight:700}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}.info-box{border:1px solid var(--border);border-radius:12px;overflow:hidden}.info-box h3{margin:0;background:var(--light);padding:10px 12px;font-size:16px;border-bottom:1px solid var(--border)}.info-box .content{padding:12px;min-height:108px;line-height:1.8;font-size:14px}
+    .invoice-table{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:13px}.invoice-table th{background:#111827;color:#fff;padding:11px 8px;border:1px solid #111827;text-align:center}.invoice-table td{border:1px solid var(--border);padding:10px 8px;text-align:center;vertical-align:top}.invoice-table td.product-name{text-align:right;font-weight:700}.invoice-table td.notes{color:var(--muted);font-size:12px}
+    .summary{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;margin-top:18px}.terms{border:1px solid var(--border);border-radius:12px;overflow:hidden}.terms h3{margin:0;background:var(--light);padding:10px 12px;font-size:15px}.terms ul{margin:0;padding:14px 28px 14px 14px;font-size:12px;line-height:1.8;color:#374151}
+    .totals{border:1px solid var(--border);border-radius:12px;overflow:hidden}.total-line{display:flex;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--border);font-size:14px}.total-line:last-child{border-bottom:0}.grand-total{background:#111827;color:white;font-size:18px;font-weight:900}.payment-status{margin-top:14px;display:inline-block;padding:8px 14px;border-radius:999px;background:#dcfce7;color:#166534;font-weight:800;font-size:13px}
+    .footer{margin-top:35px;border-top:2px solid var(--primary);padding-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:13px}.signature{text-align:center;padding-top:25px;border-top:1px dashed #9ca3af;margin-top:35px;font-weight:800}.store-address{text-align:center;margin-top:22px;font-weight:800;line-height:1.8;font-size:13px}.empty-row{color:var(--muted);font-style:italic}.hidden-print{display:inline}
+
+    /* تحسين الجدول لمنع تراكب النصوص */
+    .invoice-table{table-layout:fixed}
+    .invoice-table th,.invoice-table td{overflow-wrap:anywhere;word-break:break-word;line-height:1.45}
+    .invoice-table th:nth-child(1),.invoice-table td:nth-child(1){width:36px}
+    .invoice-table th:nth-child(2),.invoice-table td:nth-child(2){width:120px}
+    .invoice-table th:nth-child(3),.invoice-table td:nth-child(3){width:110px}
+    .invoice-table th:nth-child(4),.invoice-table td:nth-child(4){width:65px}
+    .invoice-table th:nth-child(5),.invoice-table td:nth-child(5){width:55px}
+    .invoice-table th:nth-child(6),.invoice-table td:nth-child(6){width:85px}
+    .invoice-table th:nth-child(7),.invoice-table td:nth-child(7){width:85px}
+    .invoice-table th:nth-child(8),.invoice-table td:nth-child(8){width:110px}
+    .invoice-table th:nth-child(9),.invoice-table td:nth-child(9){width:55px}
+
+    /* علامة مائية احترافية آمنة داخل الفاتورة */
+    .invoice-watermark-bg{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      user-select:none;
+      z-index:0;
+      overflow:hidden;
+    }
+    .invoice-watermark-bg span{
+      display:block;
+      transform:rotate(-28deg);
+      font-size:56px;
+      font-weight:900;
+      letter-spacing:4px;
+      color:rgba(17,24,39,.055);
+      white-space:nowrap;
+      direction:ltr;
+      text-align:center;
+    }
+    .invoice > *:not(.invoice-watermark-bg){
+      position:relative;
+      z-index:1;
+    }
+    .invoice.pdf-mode .no-pdf{
+      display:none!important;
+    }
+    .invoice.pdf-mode .invoice-watermark-bg span{
+      color:rgba(17,24,39,.07);
+      font-size:54px;
+    }
+
+    @media(max-width:1000px){.app{grid-template-columns:1fr}.invoice-header{flex-direction:column}.store-meta{text-align:right;direction:rtl}.summary{grid-template-columns:1fr}}
+    @media print{body{background:white}.panel{display:none}.app{display:block;max-width:none;margin:0;padding:0}.invoice{box-shadow:none;border-radius:0;min-height:auto;padding:20px}.hidden-print{display:none}@page{size:A4;margin:10mm}}
   </style>
 </head>
-
 <body>
   <main class="app">
-
-    <!-- Control Panel -->
     <section class="panel hidden-print">
       <h2>إنشاء فاتورة بيع</h2>
-
-      <div class="row">
-        <div class="form-group">
-          <label>رقم الفاتورة</label>
-          <input id="invoiceNumber" type="text" />
-        </div>
-
-        <div class="form-group">
-          <label>تاريخ الفاتورة</label>
-          <input id="invoiceDate" type="date" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>اسم العميل</label>
-        <input id="customerName" type="text" placeholder="مثال: أحمد محمد" />
-      </div>
-
-      <div class="row">
-        <div class="form-group">
-          <label>رقم الهاتف</label>
-          <input id="customerPhone" type="text" placeholder="01xxxxxxxxx" />
-        </div>
-
-        <div class="form-group">
-          <label>طريقة الدفع</label>
-          <select id="paymentMethod">
-            <option value="Cash">Cash</option>
-            <option value="Vodafone Cash">Vodafone Cash</option>
-            <option value="Instapay">Instapay</option>
-            <option value="Card">Card</option>
-            <option value="Installment">Installment</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>عنوان العميل</label>
-        <textarea id="customerAddress" placeholder="اختياري"></textarea>
-      </div>
-
+      <div class="row"><div class="form-group"><label>رقم الفاتورة</label><input id="invoiceNumber" type="text" /></div><div class="form-group"><label>تاريخ الفاتورة</label><input id="invoiceDate" type="date" /></div></div>
+      <div class="form-group"><label>اسم العميل</label><input id="customerName" type="text" placeholder="مثال: أحمد محمد" /></div>
+      <div class="row"><div class="form-group"><label>رقم الهاتف</label><input id="customerPhone" type="text" placeholder="01xxxxxxxxx" /></div><div class="form-group"><label>طريقة الدفع</label><select id="paymentMethod"><option value="Cash">Cash</option><option value="Vodafone Cash">Vodafone Cash</option><option value="Instapay">Instapay</option><option value="Card">Card</option><option value="Installment">Installment</option></select></div></div>
+      <div class="form-group"><label>عنوان العميل</label><textarea id="customerAddress" placeholder="اختياري"></textarea></div>
       <hr />
-
       <h2>إضافة منتج</h2>
-
-      <div class="form-group">
-        <label>اسم المنتج</label>
-        <input id="productName" type="text" placeholder="مثال: iPhone 13 Pro Max" />
-      </div>
-
-      <div class="row">
-        <div class="form-group">
-          <label>IMEI / Serial</label>
-          <input id="productSerial" type="text" placeholder="اختياري" />
-        </div>
-
-        <div class="form-group">
-          <label>الحالة</label>
-          <select id="productCondition">
-            <option value="New">New</option>
-            <option value="Used">Used</option>
-            <option value="Open Box">Open Box</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="form-group">
-          <label>الكمية</label>
-          <input id="productQty" type="number" min="1" value="1" />
-        </div>
-
-        <div class="form-group">
-          <label>سعر الوحدة</label>
-          <input id="productPrice" type="number" min="0" value="0" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>ملاحظات المنتج</label>
-        <input id="productNotes" type="text" placeholder="مثال: Battery 95% - With Box" />
-      </div>
-
+      <div class="form-group"><label>اسم المنتج</label><input id="productName" type="text" placeholder="مثال: iPhone 13 Pro Max" /></div>
+      <div class="row"><div class="form-group"><label>IMEI / Serial</label><input id="productSerial" type="text" placeholder="اختياري" /></div><div class="form-group"><label>الحالة</label><select id="productCondition"><option value="New">New</option><option value="Used">Used</option><option value="Open Box">Open Box</option></select></div></div>
+      <div class="row"><div class="form-group"><label>الكمية</label><input id="productQty" type="number" min="1" value="1" /></div><div class="form-group"><label>سعر الوحدة</label><input id="productPrice" type="number" min="0" value="0" /></div></div>
+      <div class="form-group"><label>ملاحظات المنتج</label><input id="productNotes" type="text" placeholder="مثال: Battery 95% - With Box" /></div>
       <button class="btn btn-primary" onclick="addItem()">إضافة المنتج للفاتورة</button>
-
-      <div class="row" style="margin-top: 14px;">
-        <div class="form-group">
-          <label>خصم</label>
-          <input id="discount" type="number" min="0" value="0" oninput="renderInvoice()" />
-        </div>
-
-        <div class="form-group">
-          <label>ضريبة / مصاريف</label>
-          <input id="tax" type="number" min="0" value="0" oninput="renderInvoice()" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>المدفوع</label>
-        <input id="paidAmount" type="number" min="0" value="0" oninput="renderInvoice()" />
-      </div>
-
-      <div class="form-group">
-        <label>ملاحظات عامة</label>
-        <textarea id="generalNotes" oninput="renderInvoice()" placeholder="أي ملاحظات إضافية على الفاتورة"></textarea>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-success" onclick="saveInvoice()">حفظ محلي</button>
-        <button class="btn btn-dark" onclick="saveAsPDF()">حفظ PDF</button>
-        <button class="btn btn-primary" onclick="newInvoice()">فاتورة جديدة</button>
-        <button class="btn btn-danger" onclick="clearItems()">مسح المنتجات</button>
-      </div>
+      <div class="row" style="margin-top:14px"><div class="form-group"><label>خصم</label><input id="discount" type="number" min="0" value="0" oninput="renderInvoice()" /></div><div class="form-group"><label>ضريبة / مصاريف</label><input id="tax" type="number" min="0" value="0" oninput="renderInvoice()" /></div></div>
+      <div class="form-group"><label>المدفوع</label><input id="paidAmount" type="number" min="0" value="0" oninput="renderInvoice()" /></div>
+      <div class="form-group"><label>ملاحظات عامة</label><textarea id="generalNotes" oninput="renderInvoice()" placeholder="أي ملاحظات إضافية على الفاتورة"></textarea></div>
+      <div class="actions"><button class="btn btn-success" onclick="saveInvoice()">حفظ محلي</button><button class="btn btn-dark" onclick="saveAsPDF()">حفظ PDF</button><button class="btn btn-primary" onclick="newInvoice()">فاتورة جديدة</button><button class="btn btn-danger" onclick="clearItems()">مسح المنتجات</button></div>
     </section>
 
-    <!-- Invoice Preview -->
     <section class="invoice" id="invoice">
-      <div class="page-watermark" aria-hidden="true"><span>IOS EGYPT ORIGINAL INVOICE</span></div>
-      <div class="invoice-content">
-
+      <div class="invoice-watermark-bg" aria-hidden="true"><span>IOS EGYPT ORIGINAL INVOICE</span></div>
       <header class="invoice-header">
-        <div class="brand">
-          <div class="logo-box">
-            <div class="logo-text">ios</div>
-          </div>
-
-          <div class="brand-text">
-            <h1>IOS EGYPT</h1>
-            <p>mobilestore</p>
-          </div>
-        </div>
-
-        <div class="store-meta">
-          <div class="apple-reseller">
-            <span class="apple-icon">●</span>
-            <span>premium Reseller</span>
-          </div>
-          <div><strong>IOS EGYPT mobile store</strong></div>
-          <div>Maadi 9 Street Building 102 beside New Ahli National Bank</div>
-          <div>Tel: 0223806773</div>
-        </div>
+        <div class="brand"><div class="logo-box"><div class="logo-text">ios</div></div><div class="brand-text"><h1>IOS EGYPT</h1><p>mobilestore</p></div></div>
+        <div class="store-meta"><div class="apple-reseller"><span class="apple-icon">●</span><span>premium Reseller</span></div><div><strong>IOS EGYPT mobile store</strong></div><div>Maadi 9 Street Building 102 beside New Ahli National Bank</div><div>Tel: 0223806773</div></div>
       </header>
-
-      <div class="invoice-title">
-        <h2>فاتورة بيع</h2>
-        <span id="previewInvoiceNumber">INV-0001</span>
-      </div>
-
+      <div class="invoice-title"><h2>فاتورة بيع</h2><span id="previewInvoiceNumber">INV-0001</span></div>
       <section class="info-grid">
-        <div class="info-box">
-          <h3>بيانات العميل</h3>
-          <div class="content">
-            <div><strong>الاسم:</strong> <span id="previewCustomerName">غير محدد</span></div>
-            <div><strong>الهاتف:</strong> <span id="previewCustomerPhone">غير محدد</span></div>
-            <div><strong>العنوان:</strong> <span id="previewCustomerAddress">غير محدد</span></div>
-          </div>
-        </div>
-
-        <div class="info-box">
-          <h3>بيانات الفاتورة</h3>
-          <div class="content">
-            <div><strong>التاريخ:</strong> <span id="previewInvoiceDate"></span></div>
-            <div><strong>طريقة الدفع:</strong> <span id="previewPaymentMethod">Cash</span></div>
-            <div><strong>حالة الدفع:</strong> <span id="previewPaymentStatusText">غير محدد</span></div>
-          </div>
-        </div>
+        <div class="info-box"><h3>بيانات العميل</h3><div class="content"><div><strong>الاسم:</strong> <span id="previewCustomerName">غير محدد</span></div><div><strong>الهاتف:</strong> <span id="previewCustomerPhone">غير محدد</span></div><div><strong>العنوان:</strong> <span id="previewCustomerAddress">غير محدد</span></div></div></div>
+        <div class="info-box"><h3>بيانات الفاتورة</h3><div class="content"><div><strong>التاريخ:</strong> <span id="previewInvoiceDate"></span></div><div><strong>طريقة الدفع:</strong> <span id="previewPaymentMethod">Cash</span></div><div><strong>حالة الدفع:</strong> <span id="previewPaymentStatusText">غير محدد</span></div></div></div>
       </section>
-
-      <table class="invoice-table">
-        <thead>
-          <tr>
-            <th class="col-id">#</th>
-            <th class="col-product">المنتج</th>
-            <th class="col-serial">IMEI / Serial</th>
-            <th class="col-condition">الحالة</th>
-            <th class="col-qty">الكمية</th>
-            <th class="col-price">سعر الوحدة</th>
-            <th class="col-total">الإجمالي</th>
-            <th class="col-notes">ملاحظات</th>
-            <th class="col-delete no-pdf">حذف</th>
-          </tr>
-        </thead>
-
-        <tbody id="invoiceItems">
-          <tr>
-            <td colspan="9" class="empty-row">لا توجد منتجات مضافة</td>
-          </tr>
-        </tbody>
-      </table>
-
+      <table class="invoice-table"><thead><tr><th>#</th><th>المنتج</th><th>IMEI / Serial</th><th>الحالة</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th><th>ملاحظات</th><th class="hidden-print no-pdf">حذف</th></tr></thead><tbody id="invoiceItems"><tr><td colspan="9" class="empty-row">لا توجد منتجات مضافة</td></tr></tbody></table>
       <section class="summary">
-        <div>
-          <div class="terms">
-            <h3>الشروط والملاحظات</h3>
-            <ul>
-              <li>برجاء مراجعة بيانات الجهاز والـ IMEI قبل مغادرة المحل.</li>
-              <li>لا يتم قبول الاسترجاع أو الاستبدال إلا حسب سياسة المحل وحالة الجهاز.</li>
-              <li>الضمان، إن وجد، يكون حسب نوع المنتج وحالته الموضحة في الفاتورة.</li>
-              <li>الفاتورة تعتبر إثبات شراء رسمي من IOS EGYPT mobile store.</li>
-            </ul>
-          </div>
-
-          <div style="margin-top: 12px; font-size: 13px; color: #374151;">
-            <strong>ملاحظات:</strong>
-            <span id="previewGeneralNotes">لا توجد ملاحظات</span>
-          </div>
-
-          <span class="payment-status" id="previewPaymentStatusBadge">Payment Status</span>
-        </div>
-
-        <div class="totals">
-          <div class="total-line">
-            <span>الإجمالي الفرعي</span>
-            <strong><span id="subtotal">0</span> EGP</strong>
-          </div>
-
-          <div class="total-line">
-            <span>الخصم</span>
-            <strong><span id="discountValue">0</span> EGP</strong>
-          </div>
-
-          <div class="total-line">
-            <span>ضريبة / مصاريف</span>
-            <strong><span id="taxValue">0</span> EGP</strong>
-          </div>
-
-          <div class="total-line grand-total">
-            <span>الإجمالي النهائي</span>
-            <strong><span id="grandTotal">0</span> EGP</strong>
-          </div>
-
-          <div class="total-line">
-            <span>المدفوع</span>
-            <strong><span id="paidValue">0</span> EGP</strong>
-          </div>
-
-          <div class="total-line">
-            <span>المتبقي</span>
-            <strong><span id="remainingValue">0</span> EGP</strong>
-          </div>
-        </div>
+        <div><div class="terms"><h3>الشروط والملاحظات</h3><ul><li>برجاء مراجعة بيانات الجهاز والـ IMEI قبل مغادرة المحل.</li><li>لا يتم قبول الاسترجاع أو الاستبدال إلا حسب سياسة المحل وحالة الجهاز.</li><li>الضمان، إن وجد، يكون حسب نوع المنتج وحالته الموضحة في الفاتورة.</li><li>الفاتورة تعتبر إثبات شراء رسمي من IOS EGYPT mobile store.</li></ul></div><div style="margin-top:12px;font-size:13px;color:#374151"><strong>ملاحظات:</strong> <span id="previewGeneralNotes">لا توجد ملاحظات</span></div><span class="payment-status" id="previewPaymentStatusBadge">Payment Status</span></div>
+        <div class="totals"><div class="total-line"><span>الإجمالي الفرعي</span><strong><span id="subtotal">0</span> EGP</strong></div><div class="total-line"><span>الخصم</span><strong><span id="discountValue">0</span> EGP</strong></div><div class="total-line"><span>ضريبة / مصاريف</span><strong><span id="taxValue">0</span> EGP</strong></div><div class="total-line grand-total"><span>الإجمالي النهائي</span><strong><span id="grandTotal">0</span> EGP</strong></div><div class="total-line"><span>المدفوع</span><strong><span id="paidValue">0</span> EGP</strong></div><div class="total-line"><span>المتبقي</span><strong><span id="remainingValue">0</span> EGP</strong></div></div>
       </section>
-
-      <footer class="footer">
-        <div>
-          <strong>بيانات المحل:</strong>
-          <div class="store-address">
-            ١٠٢ شارع ٩ المعادي بجوار البنك الأهلي المصري<br />
-            Maadi 9 Street Building 102 beside New Ahli National Bank<br />
-            TEL: 0223806773
-          </div>
-        </div>
-
-        <div>
-          <div class="signature">توقيع وختم المحل</div>
-        </div>
-      </footer>
-
-      </div>
+      <footer class="footer"><div><strong>بيانات المحل:</strong><div class="store-address">١٠٢ شارع ٩ المعادي بجوار البنك الأهلي المصري<br />Maadi 9 Street Building 102 beside New Ahli National Bank<br />TEL: 0223806773</div></div><div><div class="signature">توقيع وختم المحل</div></div></footer>
     </section>
   </main>
 
   <script>
-    const STORAGE_KEY = "ios_egypt_invoice_items";
+    const STORAGE_KEY="ios_egypt_invoice_items";let items=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+    const elements={invoiceNumber:document.getElementById("invoiceNumber"),invoiceDate:document.getElementById("invoiceDate"),customerName:document.getElementById("customerName"),customerPhone:document.getElementById("customerPhone"),customerAddress:document.getElementById("customerAddress"),paymentMethod:document.getElementById("paymentMethod"),productName:document.getElementById("productName"),productSerial:document.getElementById("productSerial"),productCondition:document.getElementById("productCondition"),productQty:document.getElementById("productQty"),productPrice:document.getElementById("productPrice"),productNotes:document.getElementById("productNotes"),discount:document.getElementById("discount"),tax:document.getElementById("tax"),paidAmount:document.getElementById("paidAmount"),generalNotes:document.getElementById("generalNotes"),invoiceItems:document.getElementById("invoiceItems")};
+    function formatMoney(value){return Number(value||0).toLocaleString("en-US",{minimumFractionDigits:0,maximumFractionDigits:2})}
+    function generateInvoiceNumber(){const now=new Date(),y=now.getFullYear(),m=String(now.getMonth()+1).padStart(2,"0"),d=String(now.getDate()).padStart(2,"0"),r=Math.floor(1000+Math.random()*9000);return `IOS-${y}${m}${d}-${r}`}
+    function setDefaultData(){elements.invoiceNumber.value=generateInvoiceNumber();elements.invoiceDate.value=new Date().toISOString().slice(0,10)}
+    function addItem(){const name=elements.productName.value.trim(),serial=elements.productSerial.value.trim(),condition=elements.productCondition.value,qty=Number(elements.productQty.value),price=Number(elements.productPrice.value),notes=elements.productNotes.value.trim();if(!name){alert("من فضلك اكتب اسم المنتج.");return}if(!qty||qty<=0){alert("الكمية يجب أن تكون أكبر من صفر.");return}if(price<0){alert("السعر غير صحيح.");return}items.push({id:Date.now(),name,serial,condition,qty,price,notes});localStorage.setItem(STORAGE_KEY,JSON.stringify(items));elements.productName.value="";elements.productSerial.value="";elements.productCondition.value="New";elements.productQty.value=1;elements.productPrice.value=0;elements.productNotes.value="";renderInvoice()}
+    function removeItem(id){items=items.filter(item=>item.id!==id);localStorage.setItem(STORAGE_KEY,JSON.stringify(items));renderInvoice()}
+    function clearItems(){if(!confirm("هل تريد مسح كل المنتجات من الفاتورة؟"))return;items=[];localStorage.removeItem(STORAGE_KEY);renderInvoice()}
+    function calculateTotals(){const subtotal=items.reduce((sum,item)=>sum+Number(item.qty)*Number(item.price),0),discount=Number(elements.discount.value||0),tax=Number(elements.tax.value||0),paid=Number(elements.paidAmount.value||0),grandTotal=Math.max(subtotal-discount+tax,0),remaining=Math.max(grandTotal-paid,0);return{subtotal,discount,tax,paid,grandTotal,remaining}}
+    function getPaymentStatus(grandTotal,paid){if(grandTotal===0)return{text:"غير محدد",badge:"No Items",bg:"#f3f4f6",color:"#374151"};if(paid<=0)return{text:"غير مدفوع",badge:"Unpaid",bg:"#fee2e2",color:"#991b1b"};if(paid<grandTotal)return{text:"مدفوع جزئياً",badge:"Partially Paid",bg:"#fef3c7",color:"#92400e"};return{text:"مدفوع بالكامل",badge:"Paid",bg:"#dcfce7",color:"#166534"}}
+    function renderInvoice(){document.getElementById("previewInvoiceNumber").textContent=elements.invoiceNumber.value||"INV-0001";document.getElementById("previewInvoiceDate").textContent=elements.invoiceDate.value||new Date().toISOString().slice(0,10);document.getElementById("previewCustomerName").textContent=elements.customerName.value.trim()||"غير محدد";document.getElementById("previewCustomerPhone").textContent=elements.customerPhone.value.trim()||"غير محدد";document.getElementById("previewCustomerAddress").textContent=elements.customerAddress.value.trim()||"غير محدد";document.getElementById("previewPaymentMethod").textContent=elements.paymentMethod.value;document.getElementById("previewGeneralNotes").textContent=elements.generalNotes.value.trim()||"لا توجد ملاحظات";if(items.length===0){elements.invoiceItems.innerHTML='<tr><td colspan="9" class="empty-row">لا توجد منتجات مضافة</td></tr>'}else{elements.invoiceItems.innerHTML=items.map((item,index)=>{const lineTotal=Number(item.qty)*Number(item.price);return `<tr><td>${index+1}</td><td class="product-name">${escapeHtml(item.name)}</td><td>${escapeHtml(item.serial||"-")}</td><td>${escapeHtml(item.condition)}</td><td>${item.qty}</td><td>${formatMoney(item.price)} EGP</td><td><strong>${formatMoney(lineTotal)} EGP</strong></td><td class="notes">${escapeHtml(item.notes||"-")}</td><td class="hidden-print no-pdf"><button onclick="removeItem(${item.id})" style="background:#dc2626;color:white;border:0;border-radius:8px;padding:6px 8px;cursor:pointer;">حذف</button></td></tr>`}).join("")}const totals=calculateTotals();document.getElementById("subtotal").textContent=formatMoney(totals.subtotal);document.getElementById("discountValue").textContent=formatMoney(totals.discount);document.getElementById("taxValue").textContent=formatMoney(totals.tax);document.getElementById("grandTotal").textContent=formatMoney(totals.grandTotal);document.getElementById("paidValue").textContent=formatMoney(totals.paid);document.getElementById("remainingValue").textContent=formatMoney(totals.remaining);const paymentStatus=getPaymentStatus(totals.grandTotal,totals.paid);document.getElementById("previewPaymentStatusText").textContent=paymentStatus.text;const badge=document.getElementById("previewPaymentStatusBadge");badge.textContent=paymentStatus.badge;badge.style.background=paymentStatus.bg;badge.style.color=paymentStatus.color}
+    function saveInvoice(){const invoiceData={invoiceNumber:elements.invoiceNumber.value,invoiceDate:elements.invoiceDate.value,customerName:elements.customerName.value,customerPhone:elements.customerPhone.value,customerAddress:elements.customerAddress.value,paymentMethod:elements.paymentMethod.value,items,totals:calculateTotals(),generalNotes:elements.generalNotes.value,createdAt:new Date().toISOString()};localStorage.setItem(`ios_egypt_saved_invoice_${invoiceData.invoiceNumber}`,JSON.stringify(invoiceData));alert("تم حفظ الفاتورة محلياً على المتصفح.")}
+    function saveAsPDF(){
+      const invoiceElement=document.getElementById("invoice");
+      const invoiceNumber=elements.invoiceNumber.value||"IOS-INVOICE";
+      const emptyRow=invoiceElement.querySelector(".empty-row");
+      const oldColspan=emptyRow?emptyRow.getAttribute("colspan"):null;
 
-    let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      invoiceElement.classList.add("pdf-mode");
 
-    const elements = {
-      invoiceNumber: document.getElementById("invoiceNumber"),
-      invoiceDate: document.getElementById("invoiceDate"),
-      customerName: document.getElementById("customerName"),
-      customerPhone: document.getElementById("customerPhone"),
-      customerAddress: document.getElementById("customerAddress"),
-      paymentMethod: document.getElementById("paymentMethod"),
-
-      productName: document.getElementById("productName"),
-      productSerial: document.getElementById("productSerial"),
-      productCondition: document.getElementById("productCondition"),
-      productQty: document.getElementById("productQty"),
-      productPrice: document.getElementById("productPrice"),
-      productNotes: document.getElementById("productNotes"),
-
-      discount: document.getElementById("discount"),
-      tax: document.getElementById("tax"),
-      paidAmount: document.getElementById("paidAmount"),
-      generalNotes: document.getElementById("generalNotes"),
-
-      invoiceItems: document.getElementById("invoiceItems")
-    };
-
-    function formatMoney(value) {
-      return Number(value || 0).toLocaleString("en-US", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-      });
-    }
-
-    function generateInvoiceNumber() {
-      const now = new Date();
-      const y = now.getFullYear();
-      const m = String(now.getMonth() + 1).padStart(2, "0");
-      const d = String(now.getDate()).padStart(2, "0");
-      const random = Math.floor(1000 + Math.random() * 9000);
-
-      return `IOS-${y}${m}${d}-${random}`;
-    }
-
-    function setDefaultData() {
-      elements.invoiceNumber.value = generateInvoiceNumber();
-
-      const today = new Date().toISOString().slice(0, 10);
-      elements.invoiceDate.value = today;
-    }
-
-    function addItem() {
-      const name = elements.productName.value.trim();
-      const serial = elements.productSerial.value.trim();
-      const condition = elements.productCondition.value;
-      const qty = Number(elements.productQty.value);
-      const price = Number(elements.productPrice.value);
-      const notes = elements.productNotes.value.trim();
-
-      if (!name) {
-        alert("من فضلك اكتب اسم المنتج.");
-        return;
+      if(emptyRow){
+        emptyRow.setAttribute("colspan","8");
       }
 
-      if (!qty || qty <= 0) {
-        alert("الكمية يجب أن تكون أكبر من صفر.");
-        return;
-      }
-
-      if (price < 0) {
-        alert("السعر غير صحيح.");
-        return;
-      }
-
-      items.push({
-        id: Date.now(),
-        name,
-        serial,
-        condition,
-        qty,
-        price,
-        notes
-      });
-
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-
-      elements.productName.value = "";
-      elements.productSerial.value = "";
-      elements.productCondition.value = "New";
-      elements.productQty.value = 1;
-      elements.productPrice.value = 0;
-      elements.productNotes.value = "";
-
-      renderInvoice();
-    }
-
-    function removeItem(id) {
-      items = items.filter(item => item.id !== id);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-      renderInvoice();
-    }
-
-    function clearItems() {
-      if (!confirm("هل تريد مسح كل المنتجات من الفاتورة؟")) return;
-
-      items = [];
-      localStorage.removeItem(STORAGE_KEY);
-      renderInvoice();
-    }
-
-    function calculateTotals() {
-      const subtotal = items.reduce((sum, item) => {
-        return sum + Number(item.qty) * Number(item.price);
-      }, 0);
-
-      const discount = Number(elements.discount.value || 0);
-      const tax = Number(elements.tax.value || 0);
-      const paid = Number(elements.paidAmount.value || 0);
-      const grandTotal = Math.max(subtotal - discount + tax, 0);
-      const remaining = Math.max(grandTotal - paid, 0);
-
-      return {
-        subtotal,
-        discount,
-        tax,
-        paid,
-        grandTotal,
-        remaining
-      };
-    }
-
-    function getPaymentStatus(grandTotal, paid) {
-      if (grandTotal === 0) {
-        return {
-          text: "غير محدد",
-          badge: "No Items",
-          bg: "#f3f4f6",
-          color: "#374151"
-        };
-      }
-
-      if (paid <= 0) {
-        return {
-          text: "غير مدفوع",
-          badge: "Unpaid",
-          bg: "#fee2e2",
-          color: "#991b1b"
-        };
-      }
-
-      if (paid < grandTotal) {
-        return {
-          text: "مدفوع جزئياً",
-          badge: "Partially Paid",
-          bg: "#fef3c7",
-          color: "#92400e"
-        };
-      }
-
-      return {
-        text: "مدفوع بالكامل",
-        badge: "Paid",
-        bg: "#dcfce7",
-        color: "#166534"
-      };
-    }
-
-    function renderInvoice() {
-      document.getElementById("previewInvoiceNumber").textContent =
-        elements.invoiceNumber.value || "INV-0001";
-
-      document.getElementById("previewInvoiceDate").textContent =
-        elements.invoiceDate.value || new Date().toISOString().slice(0, 10);
-
-      document.getElementById("previewCustomerName").textContent =
-        elements.customerName.value.trim() || "غير محدد";
-
-      document.getElementById("previewCustomerPhone").textContent =
-        elements.customerPhone.value.trim() || "غير محدد";
-
-      document.getElementById("previewCustomerAddress").textContent =
-        elements.customerAddress.value.trim() || "غير محدد";
-
-      document.getElementById("previewPaymentMethod").textContent =
-        elements.paymentMethod.value;
-
-      document.getElementById("previewGeneralNotes").textContent =
-        elements.generalNotes.value.trim() || "لا توجد ملاحظات";
-
-      if (items.length === 0) {
-        elements.invoiceItems.innerHTML = `
-          <tr>
-            <td colspan="9" class="empty-row">لا توجد منتجات مضافة</td>
-          </tr>
-        `;
-      } else {
-        elements.invoiceItems.innerHTML = items.map((item, index) => {
-          const lineTotal = Number(item.qty) * Number(item.price);
-
-          return `
-            <tr>
-              <td>${index + 1}</td>
-              <td class="product-name">${escapeHtml(item.name)}</td>
-              <td>${escapeHtml(item.serial || "-")}</td>
-              <td>${escapeHtml(item.condition)}</td>
-              <td>${item.qty}</td>
-              <td>${formatMoney(item.price)} EGP</td>
-              <td><strong>${formatMoney(lineTotal)} EGP</strong></td>
-              <td class="notes">${escapeHtml(item.notes || "-")}</td>
-              <td class="no-pdf">
-                <button 
-                  onclick="removeItem(${item.id})"
-                  style="background:#dc2626;color:white;border:0;border-radius:8px;padding:6px 8px;cursor:pointer;"
-                >
-                  حذف
-                </button>
-              </td>
-            </tr>
-          `;
-        }).join("");
-      }
-
-      const totals = calculateTotals();
-
-      document.getElementById("subtotal").textContent = formatMoney(totals.subtotal);
-      document.getElementById("discountValue").textContent = formatMoney(totals.discount);
-      document.getElementById("taxValue").textContent = formatMoney(totals.tax);
-      document.getElementById("grandTotal").textContent = formatMoney(totals.grandTotal);
-      document.getElementById("paidValue").textContent = formatMoney(totals.paid);
-      document.getElementById("remainingValue").textContent = formatMoney(totals.remaining);
-
-      const paymentStatus = getPaymentStatus(totals.grandTotal, totals.paid);
-
-      document.getElementById("previewPaymentStatusText").textContent = paymentStatus.text;
-
-      const badge = document.getElementById("previewPaymentStatusBadge");
-      badge.textContent = paymentStatus.badge;
-      badge.style.background = paymentStatus.bg;
-      badge.style.color = paymentStatus.color;
-    }
-
-    function saveInvoice() {
-      const invoiceData = {
-        invoiceNumber: elements.invoiceNumber.value,
-        invoiceDate: elements.invoiceDate.value,
-        customerName: elements.customerName.value,
-        customerPhone: elements.customerPhone.value,
-        customerAddress: elements.customerAddress.value,
-        paymentMethod: elements.paymentMethod.value,
-        items,
-        totals: calculateTotals(),
-        generalNotes: elements.generalNotes.value,
-        createdAt: new Date().toISOString()
-      };
-
-      const key = `ios_egypt_saved_invoice_${invoiceData.invoiceNumber}`;
-      localStorage.setItem(key, JSON.stringify(invoiceData));
-
-      alert("تم حفظ الفاتورة محلياً على المتصفح.");
-    }
-
-    function saveAsPDF() {
-      const invoiceElement = document.getElementById("invoice");
-      const invoiceNumber = elements.invoiceNumber.value || "IOS-INVOICE";
-
-      invoiceElement.classList.add("pdf-export");
-
-      const emptyRow = invoiceElement.querySelector(".empty-row");
-      const oldColspan = emptyRow ? emptyRow.getAttribute("colspan") : null;
-
-      if (emptyRow) {
-        emptyRow.setAttribute("colspan", "8");
-      }
-
-      const options = {
-        margin: [8, 8, 8, 8],
-        filename: `${invoiceNumber}.pdf`,
-        image: {
-          type: "jpeg",
-          quality: 0.98
+      const options={
+        margin:8,
+        filename:`${invoiceNumber}.pdf`,
+        image:{type:"jpeg",quality:.98},
+        html2canvas:{
+          scale:2,
+          useCORS:true,
+          backgroundColor:"#ffffff",
+          scrollX:0,
+          scrollY:0
         },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: "#ffffff",
-          scrollX: 0,
-          scrollY: 0,
-          windowWidth: 794
-        },
-        jsPDF: {
-          unit: "mm",
-          format: "a4",
-          orientation: "portrait"
-        },
-        pagebreak: {
-          mode: ["css", "legacy"],
-          avoid: [".invoice-header", ".info-grid", ".terms", ".totals", ".footer", "tr"]
+        jsPDF:{
+          unit:"mm",
+          format:"a4",
+          orientation:"portrait"
         }
       };
 
@@ -1209,70 +171,20 @@
         .set(options)
         .from(invoiceElement)
         .save()
-        .then(() => {
-          invoiceElement.classList.remove("pdf-export");
-
-          if (emptyRow && oldColspan !== null) {
-            emptyRow.setAttribute("colspan", oldColspan);
-          }
+        .then(()=>{
+          invoiceElement.classList.remove("pdf-mode");
+          if(emptyRow&&oldColspan!==null){emptyRow.setAttribute("colspan",oldColspan);}
         })
-        .catch(() => {
-          invoiceElement.classList.remove("pdf-export");
-
-          if (emptyRow && oldColspan !== null) {
-            emptyRow.setAttribute("colspan", oldColspan);
-          }
-
+        .catch(()=>{
+          invoiceElement.classList.remove("pdf-mode");
+          if(emptyRow&&oldColspan!==null){emptyRow.setAttribute("colspan",oldColspan);}
           alert("حدث خطأ أثناء حفظ PDF. جرّب مرة أخرى.");
         });
     }
-
-    function newInvoice() {
-      if (!confirm("هل تريد إنشاء فاتورة جديدة؟ سيتم مسح البيانات الحالية من الشاشة.")) return;
-
-      items = [];
-      localStorage.removeItem(STORAGE_KEY);
-
-      elements.customerName.value = "";
-      elements.customerPhone.value = "";
-      elements.customerAddress.value = "";
-      elements.paymentMethod.value = "Cash";
-      elements.discount.value = 0;
-      elements.tax.value = 0;
-      elements.paidAmount.value = 0;
-      elements.generalNotes.value = "";
-
-      setDefaultData();
-      renderInvoice();
-    }
-
-    function escapeHtml(value) {
-      return String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
-
-    [
-      "invoiceNumber",
-      "invoiceDate",
-      "customerName",
-      "customerPhone",
-      "customerAddress",
-      "paymentMethod",
-      "discount",
-      "tax",
-      "paidAmount",
-      "generalNotes"
-    ].forEach(id => {
-      document.getElementById(id).addEventListener("input", renderInvoice);
-      document.getElementById(id).addEventListener("change", renderInvoice);
-    });
-
-    setDefaultData();
-    renderInvoice();
+    function newInvoice(){if(!confirm("هل تريد إنشاء فاتورة جديدة؟ سيتم مسح البيانات الحالية من الشاشة."))return;items=[];localStorage.removeItem(STORAGE_KEY);elements.customerName.value="";elements.customerPhone.value="";elements.customerAddress.value="";elements.paymentMethod.value="Cash";elements.discount.value=0;elements.tax.value=0;elements.paidAmount.value=0;elements.generalNotes.value="";setDefaultData();renderInvoice()}
+    function escapeHtml(value){return String(value).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+    ["invoiceNumber","invoiceDate","customerName","customerPhone","customerAddress","paymentMethod","discount","tax","paidAmount","generalNotes"].forEach(id=>{document.getElementById(id).addEventListener("input",renderInvoice);document.getElementById(id).addEventListener("change",renderInvoice)});
+    setDefaultData();renderInvoice();
   </script>
 </body>
 </html>
