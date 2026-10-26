@@ -41,7 +41,7 @@ textarea{min-height:60px;resize:vertical}
 .info-content div{display:grid;grid-template-columns:100px 1fr;gap:8px}
 .info-content strong{color:#334b60}
 .table-wrap{width:100%;overflow-x:auto}
-table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:12px}
+table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:11px}
 thead th{background:var(--navy);color:#fff;padding:9px 5px;border:1px solid #35516d;text-align:center}
 tbody td{padding:10px 5px;border:1px solid var(--line);text-align:center;vertical-align:top;overflow-wrap:anywhere}
 tbody td.product{text-align:right;font-weight:700}
@@ -62,9 +62,9 @@ tbody td.product{text-align:right;font-weight:700}
 .footer{border-top:1px solid var(--line);margin-top:18px;padding-top:10px;text-align:center;font-size:11px;color:var(--muted);line-height:1.7}
 .hidden{display:none!important}
 @media(max-width:1000px){.app{grid-template-columns:1fr}.panel{position:static;max-height:none}.invoice-header{grid-template-columns:1fr}.brand{margin:auto;text-align:center}.logo{margin:0 auto 5px}.brand h1{font-size:30px}.brand p{font-size:17px}.store-meta{text-align:center}.totals-row{grid-template-columns:1fr}.notes-stamp{grid-template-columns:1fr 180px}}
-@media(max-width:600px){.app{padding:7px;margin:0;gap:10px}.invoice{padding:12px;border-radius:6px}.info-grid{grid-template-columns:1fr}.notes-stamp{grid-template-columns:1fr}.stamp{max-width:220px;margin:auto}.invoice-title h2{font-size:19px}.brand h1{font-size:26px}.invoice-table{min-width:680px}.table-wrap{overflow-x:auto}}
+@media(max-width:600px){.app{padding:7px;margin:0;gap:10px}.invoice{padding:12px;border-radius:6px}.info-grid{grid-template-columns:1fr}.notes-stamp{grid-template-columns:1fr}.stamp{max-width:220px;margin:auto}.invoice-title h2{font-size:19px}.brand h1{font-size:26px}.invoice-table{min-width:900px}.table-wrap{overflow-x:auto}}
 @page{size:A4;margin:8mm}
-@media print{body{background:#fff}.app{display:block;margin:0;padding:0;max-width:none}.panel{display:none!important}.invoice{box-shadow:none;border:0;border-radius:0;padding:0;overflow:visible}.demo-banner{print-color-adjust:exact;-webkit-print-color-adjust:exact}.invoice-title,thead th,.grand{print-color-adjust:exact;-webkit-print-color-adjust:exact}.table-wrap{overflow:visible}.invoice-table{min-width:0}.hidden-print{display:none!important}.invoice-header{grid-template-columns:1fr 1.2fr}.notes-stamp{grid-template-columns:1fr 190px}tr,.info-box,.total-box,.stamp{break-inside:avoid;page-break-inside:avoid}}
+@media print{body{background:#fff}.app{display:block;margin:0;padding:0;max-width:none}.panel{display:none!important}.invoice{box-shadow:none;border:0;border-radius:0;padding:0;overflow:visible}.demo-banner{print-color-adjust:exact;-webkit-print-color-adjust:exact}.invoice-title,thead th,.grand{print-color-adjust:exact;-webkit-print-color-adjust:exact}.table-wrap{overflow:visible}.invoice-table{min-width:0;font-size:9px}.invoice-table th,.invoice-table td{padding:5px 3px;overflow-wrap:anywhere}.hidden-print{display:none!important}.invoice-header{grid-template-columns:1fr 1.2fr}.notes-stamp{grid-template-columns:1fr 190px}tr,.info-box,.total-box,.stamp{break-inside:avoid;page-break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -81,7 +81,8 @@ tbody td.product{text-align:right;font-weight:700}
 <h3>إضافة منتج</h3>
 <div class="field"><label for="productName">اسم المنتج</label><input id="productName" value="Apple iPhone 6s 32GB"></div>
 <div class="two"><div class="field"><label for="productModel">الموديل</label><input id="productModel" value="iPhone 6s"></div><div class="field"><label for="productColor">اللون</label><input id="productColor" value="Space Gray"></div></div>
-<div class="field"><label for="productSerial">Serial Number / IMEI</label><input id="productSerial" placeholder="يُدخل عند إصدار فاتورة فعلية"></div>
+<div class="two"><div class="field"><label for="productCondition">الحالة | Condition</label><select id="productCondition"><option value="">اختر الحالة</option><option>New / جديد</option><option>Used / مستعمل</option><option>Open Box / مفتوح</option><option>Refurbished / مجدد</option></select></div><div class="field"><label for="productSerial">Serial Number</label><input id="productSerial" placeholder="الرقم التسلسلي"></div></div>
+<div class="field"><label for="productIMEI">IMEI</label><input id="productIMEI" inputmode="numeric" placeholder="رقم IMEI"></div>
 <div class="two"><div class="field"><label for="productQty">الكمية</label><input id="productQty" type="number" min="1" value="1"></div><div class="field"><label for="productPrice">سعر الوحدة (EGP)</label><input id="productPrice" type="number" min="0" step="0.01" value="0"></div></div>
 <div class="field"><label for="productNotes">ملاحظات المنتج</label><input id="productNotes" placeholder="الضمان أو حالة المنتج"></div>
 <button class="btn cyan" id="addItem">إضافة المنتج</button>
@@ -103,7 +104,7 @@ tbody td.product{text-align:right;font-weight:700}
 <div class="info-box"><h3>بيانات العميل | Customer Details</h3><div class="info-content"><div><strong>اسم العميل:</strong><span id="pvName">غير محدد</span></div><div><strong>رقم الهاتف:</strong><span id="pvPhone">غير محدد</span></div><div><strong>العنوان:</strong><span id="pvAddress">غير محدد</span></div></div></div>
 <div class="info-box"><h3>بيانات الفاتورة | Invoice Details</h3><div class="info-content"><div><strong>التاريخ:</strong><span id="pvDate">—</span></div><div><strong>طريقة الدفع:</strong><span id="pvPayment">Cash</span></div><div><strong>الحالة:</strong><span id="pvStatus">غير مدفوع</span></div></div></div>
 </div>
-<div class="table-wrap"><table class="invoice-table"><thead><tr><th style="width:5%">م</th><th style="width:22%">المنتج | Description</th><th style="width:13%">الموديل</th><th style="width:17%">Serial / IMEI</th><th style="width:10%">اللون</th><th style="width:7%">الكمية</th><th style="width:13%">سعر الوحدة</th><th style="width:13%">الإجمالي</th><th class="hidden-print" style="width:8%">حذف</th></tr></thead><tbody id="itemsBody"><tr><td colspan="9">لا توجد منتجات</td></tr></tbody></table></div>
+<div class="table-wrap"><table class="invoice-table"><thead><tr><th style="width:4%">م</th><th style="width:17%">المنتج | Description</th><th style="width:10%">الموديل</th><th style="width:13%">الحالة | Condition</th><th style="width:13%">Serial Number</th><th style="width:13%">IMEI</th><th style="width:8%">اللون</th><th style="width:5%">الكمية</th><th style="width:9%">سعر الوحدة</th><th style="width:9%">الإجمالي</th><th class="hidden-print" style="width:7%">حذف</th></tr></thead><tbody id="itemsBody"><tr><td colspan="11">لا توجد منتجات</td></tr></tbody></table></div>
 <div class="totals-row"><div class="payment"><strong>طريقة الدفع:</strong> <span id="pvPayment2">Cash</span><br><strong>ملاحظات:</strong> <span id="pvNotes">لا توجد ملاحظات</span></div><div class="total-box"><div class="total-line"><span>الإجمالي الفرعي</span><strong><span id="subtotal">0.00</span> EGP</strong></div><div class="total-line"><span>الخصم</span><strong><span id="discountPv">0.00</span> EGP</strong></div><div class="total-line"><span>الضريبة / المصاريف</span><strong><span id="taxPv">0.00</span> EGP</strong></div><div class="total-line grand"><span>الإجمالي النهائي</span><strong><span id="grandTotal">0.00</span> EGP</strong></div><div class="total-line"><span>المدفوع</span><strong><span id="paidPv">0.00</span> EGP</strong></div><div class="total-line"><span>المتبقي</span><strong><span id="remaining">0.00</span> EGP</strong></div></div></div>
 <div class="notes-stamp"><div class="notes"><h3>ملاحظات | Notes</h3><ul><li>يرجى مراجعة بيانات المنتج والرقم التسلسلي قبل مغادرة المحل.</li><li>تُطبق سياسة الاسترجاع والضمان الفعلية الخاصة بالمحل.</li><li>يُصدر المحل الفاتورة النهائية بعد التحقق من بيانات البيع.</li></ul></div><div class="stamp" aria-label="ختم تجريبي"><div class="stamp-logo">iOS</div><div class="stamp-name">IOS EGYPT</div><div class="stamp-sub">mobilestore</div><div class="stamp-phone">TEL: 0223806773</div><div class="stamp-demo">ختم تجريبي للمعاينة فقط</div></div></div>
 <footer class="footer">IOS EGYPT mobile store • 102 Maadi 9 Street, beside New Ahli National Bank • TEL: 0223806773<br>يجب على المحل مراجعة بياناته واعتماد النموذج قبل استخدامه لإصدار فواتير فعلية.</footer>
@@ -128,21 +129,21 @@ $("pvPayment").textContent=$("paymentMethod").value;$("pvPayment2").textContent=
 $("pvNotes").textContent=val("generalNotes")||"لا توجد ملاحظات";
 const body=$("itemsBody");
 if(!items.length){body.innerHTML='<tr><td colspan="9">لا توجد منتجات مضافة</td></tr>'}
-else body.innerHTML=items.map((x,i)=>`<tr><td>${i+1}</td><td style="text-align:right;font-weight:700">${escapeHtml(x.name)}<br><small>${escapeHtml(x.notes||"")}</small></td><td>${escapeHtml(x.model)}</td><td>${escapeHtml(x.serial||"—")}</td><td>${escapeHtml(x.color)}</td><td>${x.qty}</td><td>${money(x.price)}</td><td><strong>${money(x.qty*x.price)}</strong></td><td class="hidden-print"><button type="button" data-remove="${x.id}" class="btn danger" style="padding:5px;margin:0">حذف</button></td></tr>`).join("");
+else body.innerHTML=items.map((x,i)=>`<tr><td>${i+1}</td><td style="text-align:right;font-weight:700">${escapeHtml(x.name)}<br><small>${escapeHtml(x.notes||"")}</small></td><td>${escapeHtml(x.model||"—")}</td><td>${escapeHtml(x.condition||"—")}</td><td>${escapeHtml(x.serial||"—")}</td><td>${escapeHtml(x.imei||"—")}</td><td>${escapeHtml(x.color||"—")}</td><td>${x.qty}</td><td>${money(x.price)}</td><td><strong>${money(x.qty*x.price)}</strong></td><td class="hidden-print"><button type="button" data-remove="${x.id}" class="btn danger" style="padding:5px;margin:0">حذف</button></td></tr>`).join("");
 const t=totals();$("subtotal").textContent=money(t.subtotal);$("discountPv").textContent=money(t.discount);$("taxPv").textContent=money(t.tax);$("grandTotal").textContent=money(t.grand);$("paidPv").textContent=money(t.paid);$("remaining").textContent=money(t.remaining);
 const status=t.grand===0?"غير محدد":t.paid<=0?"غير مدفوع":t.paid<t.grand?"مدفوع جزئيًا":"مدفوع بالكامل";$("pvStatus").textContent=status;
 }
 function addItem(){
 const name=val("productName"),qty=Number($("productQty").value),price=Number($("productPrice").value);
 if(!name){alert("اكتب اسم المنتج أولًا.");return}if(!Number.isFinite(qty)||qty<1){alert("الكمية يجب أن تكون 1 أو أكثر.");return}if(!Number.isFinite(price)||price<0){alert("أدخل سعرًا صحيحًا.");return}
-items.push({id:Date.now()+Math.random(),name,model:val("productModel"),color:val("productColor"),serial:val("productSerial"),qty,price,notes:val("productNotes")});render();
+items.push({id:Date.now()+Math.random(),name,model:val("productModel"),condition:val("productCondition"),serial:val("productSerial"),imei:val("productIMEI"),color:val("productColor"),qty,price,notes:val("productNotes")});render();
 }
 $("addItem").addEventListener("click",addItem);
 $("itemsBody").addEventListener("click",e=>{const b=e.target.closest("[data-remove]");if(b){items=items.filter(x=>String(x.id)!==b.dataset.remove);render()}});
 ids.forEach(id=>$(id).addEventListener("input",render));
 $("printInvoice").addEventListener("click",()=>{render();window.print()});
 $("saveInvoice").addEventListener("click",()=>{const data={invoiceNumber:val("invoiceNumber"),invoiceDate:val("invoiceDate"),customerName:val("customerName"),customerPhone:val("customerPhone"),customerAddress:val("customerAddress"),paymentMethod:$("paymentMethod").value,items,totals:totals(),generalNotes:val("generalNotes"),savedAt:new Date().toISOString()};try{localStorage.setItem("ios-egypt-demo-"+data.invoiceNumber,JSON.stringify(data));alert("تم حفظ البيانات محليًا على هذا المتصفح.");}catch(e){alert("تعذر الحفظ المحلي في هذا المتصفح.");}});
-$("newInvoice").addEventListener("click",()=>{if(!confirm("بدء فاتورة جديدة؟"))return;items=[];["customerName","customerPhone","customerAddress","generalNotes","productSerial","productNotes"].forEach(id=>$(id).value="");$("invoiceNumber").value="DEMO-"+Date.now().toString().slice(-6);$("invoiceDate").value=new Date().toLocaleDateString("en-CA");$("discount").value=0;$("tax").value=0;$("paidAmount").value=0;render()});
+$("newInvoice").addEventListener("click",()=>{if(!confirm("بدء فاتورة جديدة؟"))return;items=[];["customerName","customerPhone","customerAddress","generalNotes","productSerial","productIMEI","productCondition","productNotes"].forEach(id=>$(id).value="");$("invoiceNumber").value="DEMO-"+Date.now().toString().slice(-6);$("invoiceDate").value=new Date().toLocaleDateString("en-CA");$("discount").value=0;$("tax").value=0;$("paidAmount").value=0;render()});
 $("clearItems").addEventListener("click",()=>{if(confirm("مسح كل المنتجات؟")){items=[];render()}});
 $("invoiceDate").value=new Date().toLocaleDateString("en-CA");
 render();
