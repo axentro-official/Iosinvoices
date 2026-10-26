@@ -71,7 +71,6 @@ tbody td.product{text-align:right;font-weight:700}
 <main class="app">
 <aside class="panel hidden-print">
 <h2>منشئ الفواتير | IOS EGYPT</h2>
-<div class="demo-banner">نموذج تجريبي — لا يُعد إثبات شراء</div>
 <div class="field"><label for="invoiceNumber">رقم الفاتورة</label><input id="invoiceNumber" value="INV-0001"></div>
 <div class="field"><label for="invoiceDate">تاريخ الفاتورة</label><input id="invoiceDate" type="date"></div>
 <div class="field"><label for="customerName">اسم العميل</label><input id="customerName" value="Ahmed Galal" placeholder="اسم العميل"></div>
@@ -94,7 +93,6 @@ tbody td.product{text-align:right;font-weight:700}
 </aside>
 
 <section class="invoice" id="invoice">
-<div class="demo-banner">معاينة تجريبية ببيانات افتراضية — ليست فاتورة صادرة أو إثبات شراء</div>
 <header class="invoice-header">
 <div class="brand"><div class="logo">iOS</div><h1>IOS EGYPT</h1><p>mobilestore</p></div>
 <div class="store-meta"><div class="ar-address">١٠٢ شارع ٩ المعادي بجوار البنك الأهلي المصري</div><div>Maadi 9 Street Building 102 beside New Ahli National Bank</div><div><strong>TEL: 0223806773</strong></div></div>
@@ -107,7 +105,7 @@ tbody td.product{text-align:right;font-weight:700}
 <div class="table-wrap"><table class="invoice-table"><thead><tr><th style="width:4%">م</th><th style="width:17%">المنتج | Description</th><th style="width:10%">الموديل</th><th style="width:13%">الحالة | Condition</th><th style="width:13%">Serial Number</th><th style="width:13%">IMEI</th><th style="width:8%">اللون</th><th style="width:5%">الكمية</th><th style="width:9%">سعر الوحدة</th><th style="width:9%">الإجمالي</th><th class="hidden-print" style="width:7%">حذف</th></tr></thead><tbody id="itemsBody"><tr><td colspan="11">لا توجد منتجات</td></tr></tbody></table></div>
 <div class="totals-row"><div class="payment"><strong>طريقة الدفع:</strong> <span id="pvPayment2">Cash</span><br><strong>ملاحظات:</strong> <span id="pvNotes">لا توجد ملاحظات</span></div><div class="total-box"><div class="total-line"><span>الإجمالي الفرعي</span><strong><span id="subtotal">0.00</span> EGP</strong></div><div class="total-line"><span>الخصم</span><strong><span id="discountPv">0.00</span> EGP</strong></div><div class="total-line"><span>الضريبة / المصاريف</span><strong><span id="taxPv">0.00</span> EGP</strong></div><div class="total-line grand"><span>الإجمالي النهائي</span><strong><span id="grandTotal">0.00</span> EGP</strong></div><div class="total-line"><span>المدفوع</span><strong><span id="paidPv">0.00</span> EGP</strong></div><div class="total-line"><span>المتبقي</span><strong><span id="remaining">0.00</span> EGP</strong></div></div></div>
 <div class="notes-stamp"><div class="notes"><h3>ملاحظات | Notes</h3><ul><li>يرجى مراجعة بيانات المنتج والرقم التسلسلي قبل مغادرة المحل.</li><li>تُطبق سياسة الاسترجاع والضمان الفعلية الخاصة بالمحل.</li><li>يُصدر المحل الفاتورة النهائية بعد التحقق من بيانات البيع.</li></ul></div><div class="stamp" aria-label="ختم تجريبي"><div class="stamp-logo">iOS</div><div class="stamp-name">IOS EGYPT</div><div class="stamp-sub">mobilestore</div><div class="stamp-phone">TEL: 0223806773</div></div></div>
-<footer class="footer">IOS EGYPT mobile store • 102 Maadi 9 Street, beside New Ahli National Bank • TEL: 0223806773<br>يجب على المحل مراجعة بياناته واعتماد النموذج قبل استخدامه لإصدار فواتير فعلية.</footer>
+<footer class="footer">IOS EGYPT mobile store • 102 Maadi 9 Street, beside New Ahli National Bank • TEL: 0223806773<br></footer>
 </section>
 </main>
 <script>
@@ -152,7 +150,7 @@ if(draftHasData){
   });
 }
 if(!rows.length){body.innerHTML='<tr><td colspan="11">أدخل بيانات المنتج في لوحة الإدخال أو اضغط «إضافة المنتج» بعد الانتهاء.</td></tr>'}
-else body.innerHTML=rows.map((x,i)=>`<tr style="${x.isDraft?'background:#fff9e8;outline:1px dashed #d6a23b;outline-offset:-2px':''}"><td>${i+1}${x.isDraft?'<br><small>معاينة</small>':''}</td><td style="text-align:right;font-weight:700">${escapeHtml(x.name)}<br><small>${escapeHtml(x.notes||"")}</small></td><td>${escapeHtml(x.model||"—")}</td><td>${escapeHtml(x.condition||"—")}</td><td>${escapeHtml(x.serial||"—")}</td><td>${escapeHtml(x.imei||"—")}</td><td>${escapeHtml(x.color||"—")}</td><td>${x.qty}</td><td>${money(x.price)}</td><td><strong>${money(x.qty*x.price)}</strong></td><td class="hidden-print">${x.isDraft?'<span style="font-size:10px;color:#8a5b00">غير مضافة</span>':`<button type="button" data-remove="${x.id}" class="btn danger" style="padding:5px;margin:0">حذف</button>`}</td></tr>`).join("");
+else body.innerHTML=rows.map((x,i)=>`<tr style="${x.isDraft?'background:#fff9e8;outline:1px dashed #d6a23b;outline-offset:-2px':''}"><td>${i+1}${x.isDraft?'<br><small></small>':''}</td><td style="text-align:right;font-weight:700">${escapeHtml(x.name)}<br><small>${escapeHtml(x.notes||"")}</small></td><td>${escapeHtml(x.model||"—")}</td><td>${escapeHtml(x.condition||"—")}</td><td>${escapeHtml(x.serial||"—")}</td><td>${escapeHtml(x.imei||"—")}</td><td>${escapeHtml(x.color||"—")}</td><td>${x.qty}</td><td>${money(x.price)}</td><td><strong>${money(x.qty*x.price)}</strong></td><td class="hidden-print">${x.isDraft?'<span style="font-size:10px;color:#8a5b00">غير مضافة</span>':`<button type="button" data-remove="${x.id}" class="btn danger" style="padding:5px;margin:0">حذف</button>`}</td></tr>`).join("");
 const t=totals();$("subtotal").textContent=money(t.subtotal);$("discountPv").textContent=money(t.discount);$("taxPv").textContent=money(t.tax);$("grandTotal").textContent=money(t.grand);$("paidPv").textContent=money(t.paid);$("remaining").textContent=money(t.remaining);
 const status=t.grand===0?"غير محدد":t.paid<=0?"غير مدفوع":t.paid<t.grand?"مدفوع جزئيًا":"مدفوع بالكامل";$("pvStatus").textContent=status;
 }
